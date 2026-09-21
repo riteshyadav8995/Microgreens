@@ -1,0 +1,240 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Noto Sans Devanagari', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces', 'Noto Sans Devanagari', ui-serif, Georgia, serif;
+  --font-hindi: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif;
+
+  --color-brand-50: #eff8f0;
+  --color-brand-100: #d8eedb;
+  --color-brand-200: #b3dcb9;
+  --color-brand-300: #84c290;
+  --color-brand-400: #56a466;
+  --color-brand-500: #37884a;
+  --color-brand-600: #276d3a;
+  --color-brand-700: #215731;
+  --color-brand-800: #1d462a;
+  --color-brand-900: #183a24;
+  --color-brand-950: #0b2014;
+
+  --color-cream-50: #fdfbf6;
+  --color-cream-100: #f9f4e8;
+  --color-cream-200: #f1e7cf;
+  --color-cream-300: #e6d5ad;
+
+  --color-turmeric-100: #fdf0d2;
+  --color-turmeric-400: #f0b43c;
+  --color-turmeric-500: #e39b1b;
+  --color-turmeric-700: #9a620b;
+  --color-beet-100: #f8e1ea;
+  --color-beet-500: #b83a6b;
+  --color-beet-700: #86244b;
+
+  --color-ink: #17261c;
+  --color-muted: #56665a;
+  --color-line: #e4e0d2;
+
+  --shadow-soft: 0 12px 32px -14px rgb(24 58 36 / 0.22);
+  --shadow-card: 0 1px 2px rgb(24 58 36 / 0.05), 0 10px 28px -14px rgb(24 58 36 / 0.2);
+
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-fade-in: fade-in 0.35s ease-out both;
+  --animate-slide-in-right: slide-in-right 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-slide-in-left: slide-in-left 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-slide-up: slide-up 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-pop: pop 0.4s cubic-bezier(0.2, 0.7, 0.2, 1.4) both;
+  --animate-sway: sway 6s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-in-right {
+    from { transform: translateX(100%); }
+    to { transform: none; }
+  }
+  @keyframes slide-in-left {
+    from { transform: translateX(-100%); }
+    to { transform: none; }
+  }
+  @keyframes slide-up {
+    from { transform: translateY(24px); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+  @keyframes pop {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-cream-50 font-sans text-ink antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight text-brand-950;
+    font-optical-sizing: auto;
+  }
+  :focus-visible {
+    @apply rounded-md outline-2 outline-offset-2 outline-brand-600;
+  }
+  ::selection {
+    @apply bg-brand-200 text-brand-950;
+  }
+  img {
+    @apply max-w-full;
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  .section {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-brand-600 uppercase;
+  }
+  .hindi {
+    @apply font-hindi;
+  }
+
+  .btn,
+  .btn-primary,
+  .btn-accent,
+  .btn-secondary,
+  .btn-ghost,
+  .btn-light {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100;
+  }
+  .btn-primary {
+    @apply bg-brand-700 text-white shadow-sm hover:bg-brand-800;
+  }
+  .btn-accent {
+    @apply bg-turmeric-400 text-brand-950 hover:bg-turmeric-500;
+  }
+  .btn-secondary {
+    @apply border border-brand-700/25 bg-white text-brand-800 hover:border-brand-700 hover:bg-brand-50;
+  }
+  .btn-ghost {
+    @apply text-brand-800 hover:bg-brand-50;
+  }
+  .btn-light {
+    @apply bg-white text-brand-900 hover:bg-cream-100;
+  }
+  .btn-sm {
+    @apply px-4 py-2 text-xs;
+  }
+  .btn-lg {
+    @apply px-7 py-3.5 text-base;
+  }
+  .icon-btn {
+    @apply relative inline-flex size-10 items-center justify-center rounded-full text-brand-900 transition hover:bg-brand-50;
+  }
+
+  .card {
+    @apply rounded-3xl border border-line/70 bg-white shadow-card;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-3.5 py-1.5 text-sm font-medium text-ink transition hover:border-brand-500;
+  }
+  .chip-active {
+    @apply border-brand-700 bg-brand-700 text-white hover:border-brand-700;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide uppercase;
+  }
+
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-brand-950;
+  }
+  .input {
+    @apply w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink transition placeholder:text-muted/70 hover:border-brand-300 focus:border-brand-600 focus:ring-4 focus:ring-brand-600/10 focus:outline-none;
+  }
+  .input-error {
+    @apply border-red-400 focus:border-red-500 focus:ring-red-500/10;
+  }
+  .field-error {
+    @apply mt-1.5 flex items-center gap-1 text-xs font-medium text-red-600;
+  }
+
+  .prose-mg p {
+    @apply mb-4 leading-relaxed text-muted;
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded-xl bg-cream-200/70;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Scroll-reveal: elements start hidden only when JS has marked them. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+}
