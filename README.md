@@ -12,18 +12,13 @@ npm run build      # production build in dist/
 npm run preview    # serve the build locally
 ```
 
-## Contact form (FormSubmit → Gmail)
+## Contact form (Formspree)
 
-The Contact page sends messages to a Gmail inbox through [FormSubmit](https://formsubmit.co). FormSubmit is free, needs no signup and needs no backend.
+The Contact page sends messages to [Formspree](https://formspree.io) straight from the browser (Formspree supports this, so there is no backend and no CORS problem). Messages arrive in the email inbox linked to the Formspree form.
 
-1. Messages go to **rk5061288@gmail.com** by default (set in `src/config/site.js`). To use another inbox, set `VITE_FORMSUBMIT_EMAIL` in a `.env` file.
-2. Restart `npm run dev`, then send one test message from `/contact`.
-3. FormSubmit emails that inbox an **activation link**. Click it once. Every message after that arrives in Gmail.
-4. Optional: FormSubmit then gives you a random alias. You can use the alias in place of the raw email so the address isn't visible in the page source.
-
-If FormSubmit is slow (it can take up to a minute) the form tells visitors to keep the page open. It gives up after 60 seconds, and any failure shows WhatsApp and email buttons pre-filled with the visitor's message.
-
-When deploying, set the same variable in the Vercel or Netlify environment settings. Until it is set, the form shows a friendly "not configured" message.
+- The form endpoint is `https://formspree.io/f/xoevdakp`, built into `src/config/site.js`.
+- To use a different form, set `VITE_FORMSPREE_ENDPOINT` to the full URL or just the form ID: in `.env` locally, and in Vercel → Settings → Environment Variables, then redeploy.
+- A hidden spam-trap field (`_gotcha`) filters bots. If sending fails, visitors get WhatsApp and email buttons pre-filled with their message.
 
 ## Routes
 

@@ -7,6 +7,16 @@
  * business. Values marked "VERIFY" are sample content — confirm them before launch.
  */
 
+const DEFAULT_FORMSPREE = 'https://formspree.io/f/xoevdakp';
+
+/** Accepts a full Formspree URL or a bare form ID; anything else falls back to the default form. */
+function formspreeEndpoint(value) {
+  const v = String(value || '').trim();
+  if (/^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+\/?$/.test(v)) return v.replace(/\/$/, '');
+  if (/^[A-Za-z0-9]{6,}$/.test(v)) return `https://formspree.io/f/${v}`;
+  return DEFAULT_FORMSPREE;
+}
+
 export const site = {
   name: 'Microgreen',
   fullName: 'Microgreen India',
@@ -79,11 +89,12 @@ export const site = {
     subscription: false,
   },
 
-  // Contact form → FormSubmit (https://formsubmit.co). Free, no signup: messages land in this Gmail inbox.
-  // VITE_FORMSUBMIT_EMAIL in .env overrides the default inbox below.
+  // Contact form → Formspree (https://formspree.io). Messages arrive in the inbox linked to the form.
+  // Override with VITE_FORMSPREE_ENDPOINT (full URL like https://formspree.io/f/xoevdakp, or just the form ID).
   contactForm: {
-    email: import.meta.env.VITE_FORMSUBMIT_EMAIL || 'rk5061288@gmail.com',
-    endpoint: (target) => `https://formsubmit.co/ajax/${encodeURIComponent(target)}`,
+    endpoint: formspreeEndpoint(import.meta.env.VITE_FORMSPREE_ENDPOINT || import.meta.env.VITE_FORMSUBMIT_EMAIL),
+    // Used by the "Send by email" button shown if the form can't be sent.
+    fallbackEmail: 'rk5061288@gmail.com',
   },
 };
 

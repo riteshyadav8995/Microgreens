@@ -121,63 +121,59 @@ export const joinSubscriptionWaitlist = (planId, email) => {
 
 // ---------- Contact form (real delivery via FormSubmit → Gmail) ----------
 
-const CONTACT_TIMEOUT_MS = 60000;
+const CONTACT_TIMEOUT_MS = 30000;
+const CONTACT_RETRY_DELAY_MS = 2000;
+const ASK_ELSEWHERE = 'Please try again in a minute, or reach us on WhatsApp or email below.';
 
-/**
- * Sends the contact form through FormSubmit. The free service can be slow (we measured ~45 s)
- * or briefly unreachable, so requests time out and every failure becomes a plain-language error.
- */
-export async function submitContactForm(values) {
-  const target = site.contactForm.email;
-  if (!target) {
-    throw new Error(
-      'The contact form is not configured yet. Add VITE_FORMSUBMIT_EMAIL to your .env file (see .env.example).',
-    );
-  }
-
+async function postToFormspree(body) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), CONTACT_TIMEOUT_MS);
-  let res;
   try {
-    res = await fetch(site.contactForm.endpoint(target), {
-      method: 'POST',
-      signal: controller.signal,
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({
-        name: values.name,
-        email: values.email,
-        phone: values.phone || '—',
-        topic: values.topic,
-        order_id: values.orderId || '—',
-        message: values.message,
-        _subject: `New enquiry (${values.topic}) from ${values.name} — ${site.fullName}`,
-        _replyto: values.email,
-        _template: 'table',
-        _captcha: 'false',
-        _honey: values._honey || '',
-      }),
-    });
-  } catch (err) {
-    throw new Error(
-      err.name === 'AbortError'
-        ? 'Our message service is taking too long to respond. Please try again in a few minutes, or reach us on WhatsApp or email below.'
-        : "We couldn't reach our message service. Please check your internet connection and try again, or reach us on WhatsApp or email below.",
-    );
+    // FormData + only the safelisted Accept header = a CORS "simple request" (no preflight needed).
+    return await fetch(site.contactForm.endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body, signal: controller.signal });
   } finally {
     clearTimeout(timer);
   }
+}
 
-  const data = await res.json().catch(() => ({}));
-  if (res.ok && String(data.success) === 'true') return data;
+/**
+ * Sends the contact form to Formspree, straight from the browser (Formspree supports CORS).
+ * A network hiccup is retried once; every failure becomes a plain-language error.
+ */
+export async function submitContactForm(values) {
+  const body = new FormData();
+  body.append('name', values.name);
+  body.append('email', values.email); // Formspree uses this as the reply-to address
+  body.append('phone', values.phone || '—');
+  body.append('topic', values.topic);
+  if (values.orderId) body.append('order_id', values.orderId);
+  body.append('message', values.message);
+  body.append('_subject', `New enquiry (${values.topic}) from ${values.name} — ${site.fullName}`);
+  body.append('_gotcha', values._honey || ''); // Formspree's spam trap: bots fill it, people never see it
 
-  if (/activat/i.test(data.message || '')) {
+  let res;
+  try {
+    try {
+      res = await postToFormspree(body);
+    } catch (err) {
+      if (err.name === 'AbortError') throw err;
+      await new Promise((r) => setTimeout(r, CONTACT_RETRY_DELAY_MS));
+      res = await postToFormspree(body);
+    }
+  } catch (err) {
     throw new Error(
-      "This contact form hasn't been activated yet. The site owner needs to click the “Activate Form” link that FormSubmit emailed to them. Until then, please reach us on WhatsApp or email below.",
+      err.name === 'AbortError'
+        ? `Our message service is taking too long to respond. ${ASK_ELSEWHERE}`
+        : `We couldn't reach our message service. Please check your internet connection. ${ASK_ELSEWHERE}`,
     );
   }
-  throw new Error(
-    res.status >= 500 || !data.message
-      ? 'Our message service is temporarily unavailable. Please try again in a few minutes, or reach us on WhatsApp or email below.'
-      : data.message,
-  );
+
+  const data = await res.json().catch(() => ({}));
+  if (res.ok && data.ok !== false) return data;
+
+  const detail = (data.errors || []).map((e) => e.message).filter(Boolean).join('. ') || data.error || '';
+  if (res.status === 404) throw new Error(`The contact form isn't set up correctly (form not found). ${ASK_ELSEWHERE}`);
+  if (res.status === 429) throw new Error(`Too many messages were sent in a short time. ${ASK_ELSEWHERE}`);
+  if (res.status === 422 && detail) throw new Error(`Please check your details: ${detail}.`);
+  throw new Error(detail ? `${detail}. ${ASK_ELSEWHERE}` : `Our message service is temporarily unavailable. ${ASK_ELSEWHERE}`);
 }

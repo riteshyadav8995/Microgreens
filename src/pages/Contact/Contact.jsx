@@ -29,7 +29,7 @@ export default function Contact() {
   const [status, setStatus] = useState({ state: 'idle' }); // idle | sending | success | error
   const [slow, setSlow] = useState(false);
 
-  // FormSubmit can take up to a minute — reassure people instead of showing a silent spinner.
+  // Reassure people if sending takes a while, instead of showing a silent spinner.
   useEffect(() => {
     if (status.state !== 'sending') return undefined;
     setSlow(false);
@@ -45,8 +45,8 @@ export default function Contact() {
     values.message,
   ].join('\n');
   const whatsappFallback = `${site.contact.whatsappHref}?text=${encodeURIComponent(fallbackText)}`;
-  // Email fallback goes to the same inbox as the form (the displayed contact email is still sample data).
-  const emailFallback = `mailto:${site.contactForm.email || site.contact.email}?subject=${encodeURIComponent(`${values.topic} — ${values.name}`)}&body=${encodeURIComponent(fallbackText)}`;
+  // Email fallback goes to the real inbox (the displayed contact email is still sample data).
+  const emailFallback = `mailto:${site.contactForm.fallbackEmail}?subject=${encodeURIComponent(`${values.topic} — ${values.name}`)}&body=${encodeURIComponent(fallbackText)}`;
 
   const set = (k) => (e) => {
     setValues((v) => ({ ...v, [k]: e.target.value }));
@@ -203,7 +203,7 @@ export default function Contact() {
                   </button>
                   <p className="text-xs text-muted" aria-live="polite">
                     {status.state === 'sending' && slow
-                      ? 'Still sending… this can take up to a minute. Please keep this page open.'
+                      ? 'Still sending… please keep this page open.'
                       : "We'll only use your details to reply to you."}
                   </p>
                 </div>
