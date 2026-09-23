@@ -18,8 +18,8 @@ function formspreeEndpoint(value) {
 }
 
 export const site = {
-  name: 'Microgreen',
-  fullName: 'Microgreen India',
+  name: "Mini's Greens",
+  fullName: "Mini's Greens",
   tagline: 'Small Greens. Big Nutrition.',
   secondaryTagline: 'From Seed to Your Table.',
   description:
