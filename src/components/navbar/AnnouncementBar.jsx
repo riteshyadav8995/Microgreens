@@ -22,10 +22,12 @@ export default function AnnouncementBar() {
 
   return (
     <div className="bg-brand-900 text-cream-100">
-      <div className="container-page flex h-9 items-center justify-center text-center text-xs font-medium tracking-wide sm:text-[0.8rem]">
-        <p key={index} className="animate-fade-in truncate" aria-live="off">
-          {messages[index]}
-        </p>
+      <div className="container-page grid min-h-9 items-center py-2 text-center text-xs leading-relaxed font-medium tracking-wide sm:text-[0.8rem]">
+        {messages.map((message, i) => (
+          <p key={message} className={`col-start-1 row-start-1 ${i === index ? 'animate-fade-in' : 'invisible'}`} aria-hidden={i !== index}>
+            {message}
+          </p>
+        ))}
       </div>
     </div>
   );

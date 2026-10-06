@@ -203,6 +203,13 @@
   }
 }
 
+/* Keep mobile controls readable at their focused size, including touch tablets. */
+@media (max-width: 1023px), (pointer: coarse) {
+  input:not([type='checkbox']):not([type='radio']), select, textarea {
+    font-size: 1rem;
+  }
+}
+
 /* Scroll-reveal: elements start hidden only when JS has marked them. */
 .reveal {
   opacity: 0;
