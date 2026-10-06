@@ -64,12 +64,12 @@ export function WhySection() {
     <section className="section relative overflow-hidden bg-brand-950 text-cream-100" aria-labelledby="why-mg-title">
       <div className="absolute top-0 right-0 size-[32rem] translate-x-1/3 -translate-y-1/3 rounded-full bg-brand-700/40 blur-3xl" aria-hidden />
       <div className="container-page relative">
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          <p className="eyebrow text-brand-300">Why microgreens?</p>
-          <h2 id="why-mg-title" className="mt-3 text-3xl leading-tight text-white sm:text-4xl lg:text-5xl">
-            Small greens, <em className="text-brand-300">big difference</em> to everyday food
-          </h2>
-        </div>
+        <SectionHeading
+          id="why-mg-title"
+          eyebrow={<span className="text-brand-300">Why microgreens?</span>}
+          title={<span className="text-white">Small greens, <em className="text-brand-300">big difference</em> to everyday food</span>}
+          align="center"
+        />
         <WhyMicrogreensGrid dark />
       </div>
     </section>
@@ -88,7 +88,7 @@ export function TimelineSection() {
           description="Every microgreen goes through the same journey — but each variety has its own pace. Tap a step to see what happens."
           align="center"
         />
-        <ProcessTimeline showFullLink={false} />
+        <ProcessTimeline />
       </div>
     </section>
   );

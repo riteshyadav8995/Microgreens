@@ -168,7 +168,10 @@ export const microgreenStages = [
     hindi: 'बीज',
     image: '/images/products/sunflower-seeds.webp',
     when: 'Day 0',
-    body: 'Starting material, selected according to the crop and variety.',
+    points: [
+      'Starting stage of the plant',
+      'Prepared for germination'
+    ],
   },
   {
     id: 'sprout',
@@ -176,7 +179,11 @@ export const microgreenStages = [
     hindi: 'अंकुर',
     image: '/images/products/pea-4.webp',
     when: 'About 2–5 days',
-    body: 'Very early germination — a root and shoot are just emerging. Sprouts are usually eaten whole, seed and all.',
+    points: [
+      'Seed has just germinated',
+      'Root and shoot begin to appear',
+      'Earlier stage than a microgreen'
+    ],
   },
   {
     id: 'microgreen',
@@ -184,7 +191,11 @@ export const microgreenStages = [
     hindi: 'माइक्रोग्रीन',
     image: '/images/products/radish-1.webp',
     when: 'Often 7–21 days',
-    body: 'A young edible plant harvested early, cut above the root. Look, taste and harvest time vary by variety.',
+    points: [
+      'Young leafy plant',
+      'First leaves have developed',
+      'Harvested before full maturity'
+    ],
     highlight: true,
   },
   {
@@ -193,7 +204,10 @@ export const microgreenStages = [
     hindi: 'पूरा पौधा',
     image: '/images/products/mature-kale.webp',
     when: 'Weeks to months',
-    body: 'The plant keeps growing into the regular vegetable or herb you buy at the sabzi mandi.',
+    points: [
+      'Fully grown vegetable/herb stage',
+      'Harvested much later'
+    ],
   },
 ];
 

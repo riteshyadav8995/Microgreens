@@ -9,7 +9,7 @@ export function LogoMark({ className = '' }) {
     <img
       src="/logo.jpeg"
       alt="Mini's Greens Logo"
-      className={`block h-[4.5rem] w-auto flex-shrink-0 object-contain mix-blend-multiply ${className}`}
+      className={`block h-10 w-auto flex-shrink-0 object-contain mix-blend-multiply sm:h-[3.25rem] ${className}`}
     />
   );
 }

@@ -18,7 +18,7 @@ export default function FreshPicks() {
   const { data: products, loading, error, reload } = useAsync(getProducts, []);
   const current = TABS.find((t) => t.id === tab);
   const list = products
-    ? filterAndSortProducts(products.filter((p) => p.tags.includes(tab)), { sort: current.sort, inStock: true }).slice(0, 8)
+    ? filterAndSortProducts(products.filter((p) => p.tags.includes(tab)), { sort: current.sort, inStock: true }).slice(0, 4)
     : [];
 
   const onKeyDown = (e) => {
@@ -32,10 +32,10 @@ export default function FreshPicks() {
       <div className="container-page">
         <SectionHeading
           id="fresh-picks-title"
-          eyebrow="Fresh picks · Shop"
-          title="Ready to try them?"
-          description="Our most-ordered greens, the newest arrivals and the desi favourites that belong in every dal."
-          link={{ to: '/shop', label: 'View all' }}
+          eyebrow="Explore Products"
+          title="Meet our greens"
+          description="Mild, peppery, nutty or desi — find the perfect microgreen for your everyday meals."
+          link={{ to: '/shop', label: 'View all products' }}
         />
 
         <div role="tablist" aria-label="Product collections" onKeyDown={onKeyDown} className="no-scrollbar -mx-4 mb-8 flex gap-2 overflow-x-auto px-4">

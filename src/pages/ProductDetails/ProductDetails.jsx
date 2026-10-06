@@ -22,6 +22,7 @@ import { HOW_TO_EAT_LABELS } from '../../data/productEducation';
 import SectionHeading from '../../components/common/SectionHeading';
 import { EmptyState, ErrorState } from '../../components/common/States';
 import { TextSkeleton } from '../../components/common/Skeletons';
+import AwarenessPurchasePanel from '../../components/product/AwarenessPurchasePanel';
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -136,13 +137,8 @@ export default function ProductDetails() {
               <PincodeChecker />
             </div>
           ) : (
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#best-ways" className="btn-primary">
-                <ChefHat className="size-4" aria-hidden /> How to use it
-              </a>
-              <Link to="/contact" className="btn-secondary">
-                <MessageCircle className="size-4" aria-hidden /> Ask us about {product.name.replace(/ Microgreens$/, '')}
-              </Link>
+            <div className="mt-8 space-y-6">
+              <AwarenessPurchasePanel product={product} />
             </div>
           )}
 

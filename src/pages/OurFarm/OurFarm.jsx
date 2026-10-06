@@ -94,9 +94,9 @@ export default function OurFarm() {
       <section className="section" aria-labelledby="gallery-title">
         <div className="container-page">
           <SectionHeading id="gallery-title" eyebrow="Inside the grow house" title="A look around" />
-          <ul className="grid auto-rows-[180px] grid-cols-2 gap-3 sm:auto-rows-[220px] sm:gap-4 md:grid-cols-4">
-            {farmGallery.map((img, i) => (
-              <li key={img.src} className={`overflow-hidden rounded-3xl ${i === 0 ? 'col-span-2 row-span-2' : ''} ${i === 3 ? 'md:col-span-2' : ''}`}>
+          <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
+            {farmGallery.map((img) => (
+              <li key={img.src} className="aspect-[4/3] overflow-hidden rounded-3xl">
                 <img src={img.src} alt={img.alt} loading="lazy" className="size-full object-cover transition duration-700 hover:scale-105" />
               </li>
             ))}

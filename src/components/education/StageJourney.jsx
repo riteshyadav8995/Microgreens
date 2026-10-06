@@ -26,7 +26,11 @@ export default function StageJourney() {
                   {s.hindi}
                 </span>
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{s.body}</p>
+              <ul className="mt-2 space-y-1 text-sm leading-relaxed text-muted list-disc list-inside">
+                {s.points.map((point, idx) => (
+                  <li key={idx}>{point}</li>
+                ))}
+              </ul>
             </figcaption>
           </figure>
           {i < microgreenStages.length - 1 && (
