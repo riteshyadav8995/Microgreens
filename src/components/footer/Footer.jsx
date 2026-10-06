@@ -38,8 +38,8 @@ const columns = [
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-brand-950 text-cream-100">
-      <section aria-labelledby="newsletter-title" className="border-b border-white/10">
+    <footer className="bg-cream-50 text-brand-900">
+      <section aria-labelledby="newsletter-title" className="bg-brand-950 text-cream-100">
         <div className="container-page grid grid-cols-1 items-center gap-6 py-12 lg:grid-cols-2 lg:gap-16">
           <Reveal className="min-w-0">
             <h2 id="newsletter-title" className="text-3xl text-white sm:text-4xl">
@@ -53,9 +53,9 @@ export default function Footer() {
 
       <div className="container-page grid gap-12 py-16 lg:grid-cols-[0.8fr_2fr] lg:py-20 xl:grid-cols-[0.8fr_3fr]">
         <Reveal className="min-w-0 max-w-sm">
-          <Logo light />
-          <p className="mt-5 font-display text-2xl leading-snug text-white">{site.tagline}</p>
-          <p className="mt-3 text-sm leading-relaxed text-cream-100/70">
+          <Logo size="large" />
+          <p className="mt-5 font-display text-2xl leading-snug text-brand-950">{site.tagline}</p>
+          <p className="mt-3 text-sm leading-relaxed text-muted">
             Fresh microgreens grown in India for Indian kitchens — from our farm to your table.
           </p>
           <div className="mt-6 flex gap-2">
@@ -71,7 +71,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer noopener"
                 aria-label={`${label} (opens in a new tab)`}
-                className="grid size-10 place-items-center rounded-full bg-white/10 text-cream-100 transition hover:bg-turmeric-400 hover:text-brand-950"
+                className="grid size-10 place-items-center rounded-full bg-brand-100 text-brand-800 transition hover:bg-brand-200 hover:text-brand-950"
               >
                 <SocialIcon name={icon} />
               </a>
@@ -82,11 +82,11 @@ export default function Footer() {
         <div className="grid min-w-0 gap-8 sm:grid-cols-2 xl:grid-cols-[1fr_1fr_0.8fr_1.4fr]">
           {columns.map((col) => (
             <nav key={col.title} aria-label={`Footer ${col.title}`}>
-              <h2 className="font-sans text-sm font-semibold tracking-wider text-brand-300 uppercase">{col.title}</h2>
+              <h2 className="font-sans text-sm font-semibold tracking-wider text-brand-700 uppercase">{col.title}</h2>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l.to}>
-                    <Link to={l.to} className="text-sm text-cream-100/75 transition hover:text-white">
+                    <Link to={l.to} className="text-sm text-muted transition hover:text-brand-900">
                       {l.label}
                     </Link>
                   </li>
@@ -95,31 +95,31 @@ export default function Footer() {
             </nav>
           ))}
           <div>
-            <h2 className="font-sans text-sm font-semibold tracking-wider text-brand-300 uppercase">Get in touch</h2>
-            <ul className="mt-4 space-y-3 text-sm text-cream-100/75">
+            <h2 className="font-sans text-sm font-semibold tracking-wider text-brand-700 uppercase">Get in touch</h2>
+            <ul className="mt-4 space-y-3 text-sm text-muted">
               <li>
-                <a href={site.contact.phoneHref} className="flex gap-2.5 hover:text-white">
-                  <Phone className="mt-0.5 size-4 shrink-0 text-brand-300" aria-hidden /> {site.contact.phone}
+                <a href={site.contact.phoneHref} className="flex gap-2.5 hover:text-brand-900">
+                  <Phone className="mt-0.5 size-4 shrink-0 text-brand-700" aria-hidden /> {site.contact.phone}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${site.contact.email}`} className="flex gap-2.5 break-all hover:text-white">
-                  <Mail className="mt-0.5 size-4 shrink-0 text-brand-300" aria-hidden /> {site.contact.email}
+                <a href={`mailto:${site.contact.email}`} className="flex gap-2.5 break-all hover:text-brand-900">
+                  <Mail className="mt-0.5 size-4 shrink-0 text-brand-700" aria-hidden /> {site.contact.email}
                 </a>
               </li>
               <li className="flex gap-2.5">
-                <MapPin className="mt-0.5 size-4 shrink-0 text-brand-300" aria-hidden /> {site.contact.address}
+                <MapPin className="mt-0.5 size-4 shrink-0 text-brand-700" aria-hidden /> {site.contact.address}
               </li>
               <li className="flex gap-2.5">
-                <Clock className="mt-0.5 size-4 shrink-0 text-brand-300" aria-hidden /> {site.contact.hours}
+                <Clock className="mt-0.5 size-4 shrink-0 text-brand-700" aria-hidden /> {site.contact.hours}
               </li>
             </ul>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-white/10">
-        <div className="container-page flex flex-col gap-3 py-6 text-xs text-cream-100/55 md:flex-row md:items-center md:justify-between">
+      <div className="border-t border-line">
+        <div className="container-page flex flex-col gap-3 py-6 text-xs text-muted md:flex-row md:items-center md:justify-between">
           <p>© {year} {site.fullName}. All rights reserved.</p>
         </div>
       </div>

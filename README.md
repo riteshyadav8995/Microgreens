@@ -47,7 +47,7 @@ features: {
 
 ## Awareness features (BRD v2)
 
-- **Logo**: a stacked Mini's Greens wordmark with a leaf, shared by the header and footer.
+- **Logo**: the supplied Mini's Greens artwork, with its background removed, in `public/images/brand/logo-transparent.png`. All page logo placements use this one asset without filters or colour variants. The browser tab uses the user-selected sprout icon in `public/favicon-sprout.svg`. The original JPEG is retained as the source. See `public/images/brand/README.md` for the edit prompt and asset details.
 - **Home**: three complete hero slides advance every two seconds, with a 1.5-second content reveal, microgreens photography and pause/play controls. Brief growing and eating sections link to the full guides. SVG growing illustrations replay on re-entry into view.
 - **What are microgreens?**: a Seed → Sprout → Microgreen → Mature plant visual, a comparison with sprouts and mature plants, general value with no medical claims, and FAQs.
 - **Why Microgreens?**: flavour, colour, texture, everyday meal ideas and research-based nutrition context. Nutrient examples share the catalogue data; USDA source links distinguish general research from product-specific lab results. Brand purpose and values live on About.

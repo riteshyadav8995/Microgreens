@@ -12,7 +12,7 @@ export default function AuthLayout({ title, subtitle, children, image = '/images
           <p className="mt-3 text-sm text-white/75">Save favourites, check out faster and reorder in a tap.</p>
         </div>
         <div className="p-6 sm:p-10">
-          <LogoMark className="size-11" />
+          <LogoMark />
           <h1 className="mt-6 text-3xl sm:text-4xl">{title}</h1>
           {subtitle && <p className="mt-2 text-muted">{subtitle}</p>}
           <p className="mt-5 flex items-start gap-2 rounded-2xl bg-turmeric-100 p-3 text-xs text-turmeric-700" role="note">
