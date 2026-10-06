@@ -16,10 +16,7 @@ export default function QuickViewModal() {
         <div className="grid gap-6 p-5 sm:p-7 md:grid-cols-2">
           <ProductGallery images={product.images} name={product.name} />
           <div className="flex flex-col">
-            <p className="hindi text-sm text-brand-600" lang="hi">
-              {product.hindiName}
-            </p>
-            <h2 id="quickview-title" className="mt-1 pr-10 text-3xl">
+            <h2 id="quickview-title" className="pr-10 text-3xl">
               {product.name}
             </h2>
             {site.features.ratings && <ProductRating rating={product.rating} count={product.reviewCount} className="mt-2" />}

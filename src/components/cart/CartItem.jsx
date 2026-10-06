@@ -27,7 +27,7 @@ export default function CartItem({ item, compact = false, onNavigate }) {
               {item.name}
             </Link>
             <p className="text-sm text-muted">
-              <span className="hindi" lang="hi">{item.hindiName}</span> · {item.variantLabel}
+              {item.variantLabel}
             </p>
           </div>
           <div className="text-right">

@@ -3,7 +3,8 @@
  * so pages read it through src/services/api.js and never import it directly.
  *
  * Ratings and review counts are sample data. `nutrition` stays null until verified lab values
- * exist (BRD §4, §16) — the UI shows a "pending verification" note instead of inventing numbers.
+ * exist (BRD §4, §16). Research-based nutrient names live separately in productNutrients.js;
+ * the UI does not invent measured amounts or claim product-specific lab testing.
  */
 
 const img = (name) => `/images/products/${name}.webp`;

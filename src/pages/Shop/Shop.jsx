@@ -17,6 +17,7 @@ import Drawer from '../../components/common/Drawer';
 import { EmptyState, ErrorState } from '../../components/common/States';
 import { ProductGridSkeleton } from '../../components/common/Skeletons';
 import { site } from '../../config/site';
+import { NUTRIENT_NOTE } from '../../data/productNutrients';
 
 const SHOP = site.features.shop;
 // Sorts that are available with the current feature switches (others fall back to Featured).
@@ -29,11 +30,11 @@ const EMPTY_FILTERS = { q: '', categories: [], price: '', minRating: 0, tastes: 
 const parseFilters = (params) => ({
   q: params.get('q') || '',
   categories: list(params.get('category')),
-  price: params.get('price') || '',
+  price: SHOP ? params.get('price') || '' : '',
   minRating: site.features.ratings ? Number(params.get('rating')) || 0 : 0,
   tastes: list(params.get('taste')),
-  inStock: params.get('stock') === '1',
-  onSale: params.get('sale') === '1',
+  inStock: SHOP && params.get('stock') === '1',
+  onSale: SHOP && params.get('sale') === '1',
   sort: VALID_SORTS.includes(params.get('sort')) ? params.get('sort') : 'featured',
 });
 
@@ -81,11 +82,11 @@ export default function Shop() {
   const { data, loading, error, reload } = useAsync(() => Promise.all([getProducts(), getCategories()]), []);
   const [products, categories] = data || [[], []];
 
-  const results = useMemo(() => filterAndSortProducts(products, filters), [products, filters]);
+  const results = useMemo(() => filterAndSortProducts(products, filters, { prioritizeStock: SHOP }), [products, filters]);
   const counts = useMemo(() => Object.fromEntries(categories.map((c) => [c.id, c.productCount])), [categories]);
 
   const singleCategory = filters.categories.length === 1 ? categories.find((c) => c.id === filters.categories[0]) : null;
-  const title = singleCategory ? singleCategory.name : SHOP ? 'Shop microgreens' : 'Our greens';
+  const title = singleCategory ? singleCategory.name : SHOP ? 'Shop microgreens' : 'Our Greens';
   usePageMeta(
     filters.q ? `Search: ${filters.q}` : title,
     singleCategory?.description ||
@@ -116,14 +117,14 @@ export default function Shop() {
     <>
       <PageHeader
         title={title}
-        eyebrow={singleCategory ? <span className="hindi" lang="hi">{singleCategory.hindiName}</span> : SHOP ? 'Fresh from our farm' : 'Meet the varieties'}
+        eyebrow={SHOP ? 'Fresh from our farm' : 'Meet the varieties'}
         description={
           singleCategory?.description ||
           (SHOP
             ? 'Fresh microgreens, herbs and combos — filter by taste, price and more to find your favourites.'
-            : 'Every variety we grow — filter by taste, see how long each takes to grow and how to use it in daily meals.')
+            : 'Explore our varieties and their nutrient highlights. Open a product for taste, growing time and ways to use it.')
         }
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: SHOP ? 'Shop' : 'Our greens', to: singleCategory ? '/shop' : undefined }, ...(singleCategory ? [{ label: singleCategory.name }] : [])]}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: SHOP ? 'Shop' : 'Our Greens', to: singleCategory ? '/shop' : undefined }, ...(singleCategory ? [{ label: singleCategory.name }] : [])]}
       >
         <div className="mt-6 max-w-xl">
           <SearchBar initialValue={filters.q} onSearch={(q) => update({ q })} />
@@ -167,7 +168,8 @@ export default function Shop() {
             </div>
           </aside>
 
-          <div>
+          <div role="region" aria-label="Catalogue results" className="min-w-0">
+            <p className="mb-5 text-xs leading-relaxed text-muted">{NUTRIENT_NOTE}</p>
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-muted" aria-live="polite">
                 {loading ? 'Loading products…' : <>Showing <strong className="text-ink">{SHOP ? pluralize(results.length, 'product') : pluralize(results.length, 'variety', 'varieties')}</strong></>}
@@ -218,10 +220,7 @@ export default function Shop() {
                     <section key={c.id} aria-labelledby={`group-${c.id}`}>
                       <div className="mb-5 flex items-baseline justify-between gap-3 border-b border-line pb-3">
                         <h2 id={`group-${c.id}`} className="text-2xl sm:text-3xl">
-                          {c.name}{' '}
-                          <span className="hindi text-base font-normal text-muted" lang="hi">
-                            {c.hindiName}
-                          </span>
+                          {c.name}
                         </h2>
                         <span className="shrink-0 text-sm text-muted">{pluralize(c.items.length, 'variety', 'varieties')}</span>
                       </div>

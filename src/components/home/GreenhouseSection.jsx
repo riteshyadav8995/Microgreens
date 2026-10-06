@@ -9,7 +9,7 @@ export default function GreenhouseSection() {
       <div className="container-page">
         <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-brand-950">
           <img
-            src="/images/farm/racks.webp"
+            src="/images/farm/tray-row.webp"
             alt=""
             loading="lazy"
             className="absolute inset-0 -z-10 size-full object-cover opacity-60"

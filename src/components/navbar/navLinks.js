@@ -3,9 +3,9 @@ import { site } from '../../config/site';
 export const learnLinks = [
   { to: '/what-are-microgreens', label: 'What are microgreens?', description: 'Seed → sprout → microgreen, explained simply', icon: 'Sprout' },
   { to: '/how-we-grow', label: 'How we grow', description: 'All 9 steps from seed to your table', icon: 'Sun' },
+  { to: '/why-us', label: `Why ${site.name}`, description: 'Flavour choices, meal ideas and clear guidance', icon: 'BadgeCheck' },
   { to: '/how-to-eat', label: 'How to eat them', description: 'Everyday Indian meals, washing & storage', icon: 'ChefHat' },
   { to: '/find-my-microgreen', label: 'Find my microgreen', description: 'A 3-question quiz to find your match', icon: 'Sparkles' },
-  { to: '/why-us', label: 'Why Microgreen', description: 'Freshness, quality and honest information', icon: 'BadgeCheck' },
 ];
 
 export const primaryLinks = [

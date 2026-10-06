@@ -7,12 +7,12 @@ import { useAsync } from '../../hooks/useAsync';
 import { getFaqs } from '../../services/api';
 import PageHeader from '../../components/common/PageHeader';
 import Accordion from '../../components/common/Accordion';
-import { EmptyState } from '../../components/common/States';
+import { EmptyState, ErrorState } from '../../components/common/States';
 import { TextSkeleton } from '../../components/common/Skeletons';
 
 export default function FAQ() {
   usePageMeta('FAQs', 'Answers about microgreens — what they are, how they grow, and how to store and use them.');
-  const { data: raw, loading } = useAsync(getFaqs, []);
+  const { data: raw, loading, error, reload } = useAsync(getFaqs, []);
   // Ordering/payment questions only apply while online selling is on.
   const hidden = site.features.shop ? [] : ['orders', 'payments'];
   const data = raw && { categories: raw.categories.filter((c) => !hidden.includes(c.id)), faqs: raw.faqs.filter((f) => !hidden.includes(f.category)) };
@@ -47,14 +47,14 @@ export default function FAQ() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search questions, e.g. storage, delivery"
+            placeholder={site.features.shop ? 'Search questions, e.g. storage, delivery' : 'Search questions, e.g. storage, nutrition'}
             className="input rounded-full py-3.5 pl-12"
           />
         </div>
       </PageHeader>
 
-      <div className="container-page grid gap-10 py-12 sm:py-16 lg:grid-cols-[240px_1fr]">
-        <nav aria-label="FAQ categories" className="lg:sticky lg:top-28 lg:self-start">
+      <div className="container-page grid grid-cols-1 gap-10 py-12 sm:py-16 lg:grid-cols-[240px_1fr]">
+        <nav aria-label="FAQ categories" className="min-w-0 lg:sticky lg:top-28 lg:self-start">
           <ul className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-col lg:px-0">
             {[{ id: 'all', name: 'All questions' }, ...(data?.categories || [])].map((c) => (
               <li key={c.id} className="shrink-0">
@@ -73,9 +73,10 @@ export default function FAQ() {
           </ul>
         </nav>
 
-        <div className="space-y-10">
+        <div className="min-w-0 space-y-10">
           {loading && <TextSkeleton lines={6} />}
-          {!loading && groups.length === 0 && (
+          {error && <ErrorState onRetry={reload} />}
+          {!loading && !error && groups.length === 0 && (
             <EmptyState
               icon={SearchX}
               title="No matching questions"

@@ -9,17 +9,28 @@ export default function LearnDropdown() {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef(null);
   const closeTimer = useRef();
-  // Set when the pointer opened the menu, so the following click doesn't immediately close it.
-  const hoverOpened = useRef(false);
+  // A clicked menu stays open while the pointer moves to its links.
+  const pinned = useRef(false);
   const { pathname } = useLocation();
   const active = learnLinks.some((l) => l.to === pathname);
 
-  useEffect(() => setOpen(false), [pathname]);
+  const closeMenu = () => {
+    clearTimeout(closeTimer.current);
+    pinned.current = false;
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    clearTimeout(closeTimer.current);
+    pinned.current = false;
+    setOpen(false);
+  }, [pathname]);
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
 
   useEffect(() => {
     if (!open) return undefined;
-    const onKey = (e) => e.key === 'Escape' && setOpen(false);
-    const onClick = (e) => !wrapRef.current?.contains(e.target) && setOpen(false);
+    const onKey = (e) => e.key === 'Escape' && closeMenu();
+    const onClick = (e) => !wrapRef.current?.contains(e.target) && closeMenu();
     document.addEventListener('keydown', onKey);
     document.addEventListener('mousedown', onClick);
     return () => {
@@ -34,23 +45,23 @@ export default function LearnDropdown() {
       className="relative"
       onMouseEnter={() => {
         clearTimeout(closeTimer.current);
-        if (!open) hoverOpened.current = true;
         setOpen(true);
       }}
       onMouseLeave={() => {
         closeTimer.current = setTimeout(() => {
-          hoverOpened.current = false;
-          setOpen(false);
+          if (!pinned.current) setOpen(false);
         }, 150);
       }}
     >
       <button
         type="button"
         onClick={() => {
-          if (hoverOpened.current) {
-            hoverOpened.current = false;
+          if (pinned.current) closeMenu();
+          else {
+            clearTimeout(closeTimer.current);
+            pinned.current = true;
             setOpen(true);
-          } else setOpen((o) => !o);
+          }
         }}
         aria-expanded={open}
         aria-controls="learn-menu"
@@ -67,6 +78,7 @@ export default function LearnDropdown() {
               <li key={l.to}>
                 <Link
                   to={l.to}
+                  onClick={closeMenu}
                   aria-current={pathname === l.to ? 'page' : undefined}
                   className="group flex items-start gap-3 rounded-2xl p-3 transition hover:bg-cream-100 aria-[current=page]:bg-brand-50"
                 >

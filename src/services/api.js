@@ -108,10 +108,15 @@ export const getOrder = async (id) => respond(byId(storage.get('orders', []), id
 
 // ---------- Marketing ----------
 
-export const subscribeNewsletter = (email) => {
-  const list = storage.get('newsletter', []);
-  if (!list.includes(email)) storage.set('newsletter', [...list, email]);
-  return respond({ ok: true }, 600);
+export const subscribeNewsletter = async (email) => {
+  // Deliver a signup request through the same configured service as the contact form.
+  // A local-storage entry alone must never be reported as a successful signup.
+  return submitContactForm({
+    name: 'Newsletter subscriber',
+    email,
+    topic: 'Microgreens updates',
+    message: `Please send me tips, variety news and updates from ${site.name}.`,
+  });
 };
 
 export const joinSubscriptionWaitlist = (planId, email) => {
@@ -119,7 +124,7 @@ export const joinSubscriptionWaitlist = (planId, email) => {
   return respond({ ok: true }, 600);
 };
 
-// ---------- Contact form (real delivery via FormSubmit → Gmail) ----------
+// ---------- Contact form (delivery via the configured Formspree form) ----------
 
 const CONTACT_TIMEOUT_MS = 30000;
 const CONTACT_RETRY_DELAY_MS = 2000;

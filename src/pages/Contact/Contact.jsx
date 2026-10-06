@@ -9,6 +9,7 @@ import PageHeader from '../../components/common/PageHeader';
 import FormField from '../../components/common/FormField';
 import SocialIcon from '../../components/common/SocialIcons';
 import { Spinner } from '../../components/common/States';
+import Reveal from '../../components/common/Reveal';
 
 // Show the "still sending" note after this long.
 const SLOW_AFTER_MS = 6000;
@@ -23,7 +24,7 @@ const TOPICS = [
 const EMPTY = { name: '', email: '', phone: '', topic: TOPICS[0], orderId: '', message: '', _honey: '' };
 
 export default function Contact() {
-  usePageMeta('Contact Us', 'Questions about an order, wholesale or farm visits? Call, WhatsApp or write to Microgreen India.');
+  usePageMeta('Contact Us', `Questions about microgreens, wholesale or farm visits? Call, WhatsApp or write to ${site.name}.`);
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({ state: 'idle' }); // idle | sending | success | error
@@ -45,8 +46,7 @@ export default function Contact() {
     values.message,
   ].join('\n');
   const whatsappFallback = `${site.contact.whatsappHref}?text=${encodeURIComponent(fallbackText)}`;
-  // Email fallback goes to the real inbox (the displayed contact email is still sample data).
-  const emailFallback = `mailto:${site.contactForm.fallbackEmail}?subject=${encodeURIComponent(`${values.topic} — ${values.name}`)}&body=${encodeURIComponent(fallbackText)}`;
+  const emailFallback = `mailto:${site.contact.email}?subject=${encodeURIComponent(`${values.topic} — ${values.name}`)}&body=${encodeURIComponent(fallbackText)}`;
 
   const set = (k) => (e) => {
     setValues((v) => ({ ...v, [k]: e.target.value }));
@@ -97,11 +97,11 @@ export default function Contact() {
       />
 
       <div className="container-page py-12 sm:py-16">
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {channels.map((c) => {
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {channels.map((c, i) => {
             const content = (
               <>
-                <span className="grid size-12 place-items-center rounded-2xl bg-brand-100 text-brand-700">
+                <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand-100 text-brand-700">
                   {typeof c.icon === 'string' ? <SocialIcon name={c.icon} className="size-6" /> : <c.icon className="size-6" aria-hidden />}
                 </span>
                 <span className="min-w-0">
@@ -111,7 +111,7 @@ export default function Contact() {
               </>
             );
             return (
-              <li key={c.title}>
+              <Reveal as="li" key={c.title} delay={i * 70} className="min-w-0">
                 {c.href ? (
                   <a
                     href={c.href}
@@ -123,7 +123,7 @@ export default function Contact() {
                 ) : (
                   <div className="card flex h-full items-center gap-4 p-5">{content}</div>
                 )}
-              </li>
+              </Reveal>
             );
           })}
         </ul>

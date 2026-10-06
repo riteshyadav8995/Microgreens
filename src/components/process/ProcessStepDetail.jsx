@@ -1,17 +1,18 @@
 import { CircleCheck } from 'lucide-react';
 import Icon from '../common/Icon';
+import Reveal from '../common/Reveal';
 
 /** Full explanation of one growing step — used inside the timeline modal and on the How We Grow page. */
 export default function ProcessStepDetail({ step, index, total, compact = false, headingLevel: H = 'h3', headingId }) {
   return (
     <div className={`grid gap-6 ${compact ? '' : 'md:grid-cols-2 md:items-center lg:gap-12'}`}>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-cream-100">
+      <Reveal className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-cream-100">
         <img src={step.image} alt={`${step.title} stage`} loading="lazy" className="size-full object-cover" />
         <span className="absolute top-4 left-4 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-brand-800">
           Step {index + 1} of {total}
         </span>
-      </div>
-      <div>
+      </Reveal>
+      <Reveal delay={100}>
         <p className="eyebrow">
           <Icon name={step.icon} className="size-4" /> {step.timing}
         </p>
@@ -40,7 +41,7 @@ export default function ProcessStepDetail({ step, index, total, compact = false,
             ))}
           </ul>
         )}
-      </div>
+      </Reveal>
     </div>
   );
 }

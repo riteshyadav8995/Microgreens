@@ -1,20 +1,15 @@
 import { useState } from 'react';
 import { Mail, MessageCircle, Share2, Link as LinkIcon, Check } from 'lucide-react';
 import { site } from '../../config/site';
-import { getVariant } from '../../utils/product';
-import VariantSelector from './VariantSelector';
-import PriceTag from './PriceTag';
 import SocialIcon from '../common/SocialIcons';
 
 export default function AwarenessPurchasePanel({ product }) {
-  const [variantId, setVariantId] = useState(product.variants[0].id);
   const [copied, setCopied] = useState(false);
-  const variant = getVariant(product, variantId);
 
   const productUrl = `${window.location.origin}/product/${product.id}`;
-  const whatsappMessage = encodeURIComponent(`Hi! I want to enquire about ${product.name} (${variant.label}) priced at ₹${variant.salePrice || variant.price}.`);
+  const whatsappMessage = encodeURIComponent(`Hi! I want to enquire about ${product.name}.`);
   const emailSubject = encodeURIComponent(`Enquiry: ${product.name}`);
-  const emailBody = encodeURIComponent(`Hi Mini's Greens team,\n\nI would like to know more about ${product.name} (${variant.label}).\n\nThanks!`);
+  const emailBody = encodeURIComponent(`Hi Mini's Greens team,\n\nI would like to know more about ${product.name}.\n\nThanks!`);
 
   const handleCopyLink = async () => {
     try {
@@ -42,13 +37,6 @@ export default function AwarenessPurchasePanel({ product }) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <PriceTag variant={variant} size="lg" />
-        <p className="mt-1 text-xs text-muted">Inclusive of all taxes</p>
-      </div>
-
-      <VariantSelector product={product} value={variantId} onChange={setVariantId} showPrice />
-
       <div className="flex flex-col gap-3 sm:flex-row">
         <a 
           href={`${site.contact.whatsappHref}?text=${whatsappMessage}`} 

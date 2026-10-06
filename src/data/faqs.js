@@ -2,6 +2,8 @@
  * FAQ content. Policy answers (delivery, returns, payments) are sample content — VERIFY with the
  * business before launch.
  */
+import { NUTRITION_FAQ } from './productNutrients';
+
 export const faqCategories = [
   { id: 'microgreens', name: 'About microgreens' },
   { id: 'using', name: 'Using & storing' },
@@ -43,7 +45,7 @@ export const faqs = [
     category: 'microgreens',
     question: 'Where can I find nutrition information?',
     answer:
-      'We will publish nutrition values per variety once they are verified by lab testing. Until then we avoid quoting numbers we cannot stand behind.',
+      NUTRITION_FAQ,
   },
   {
     id: 'how-store',

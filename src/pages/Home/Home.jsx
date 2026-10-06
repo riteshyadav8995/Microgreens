@@ -3,17 +3,13 @@ import { site } from '../../config/site';
 import Hero from '../../components/home/Hero';
 import {
   ComparisonSection,
-  TimelineSection,
+  GrowingBriefSection,
+  EatingBriefSection,
   WhatAreSection,
   WhySection,
 } from '../../components/home/AwarenessSections';
-import FreshPicks from '../../components/home/FreshPicks';
-import HomeCTA from '../../components/home/HomeCTA';
 
-/**
- * Awareness-first home page, in the order of Awareness BRD §13:
- * educate → build trust → show everyday usage → recommend → enable purchase.
- */
+/** Introduce the basics, then offer short previews of growing and everyday use. */
 export default function Home() {
   usePageMeta(null, site.description);
 
@@ -23,9 +19,8 @@ export default function Home() {
       <WhatAreSection />
       <ComparisonSection />
       <WhySection />
-      <TimelineSection />
-      <FreshPicks />
-      <HomeCTA />
+      <GrowingBriefSection />
+      <EatingBriefSection />
     </>
   );
 }

@@ -5,6 +5,8 @@ import NewsletterForm from '../common/NewsletterForm';
 import SocialIcon from '../common/SocialIcons';
 import { categories } from '../../data/categories';
 import { site } from '../../config/site';
+import { learnLinks } from '../navbar/navLinks';
+import Reveal from '../common/Reveal';
 
 const SHOP = site.features.shop;
 
@@ -16,10 +18,7 @@ const columns = [
   {
     title: 'Learn',
     links: [
-      { to: '/what-are-microgreens', label: 'What are microgreens?' },
-      { to: '/how-we-grow', label: 'How we grow' },
-      { to: '/how-to-eat', label: 'How to eat them' },
-      { to: '/find-my-microgreen', label: 'Find my microgreen' },
+      ...learnLinks,
       ...(site.features.recipes ? [{ to: '/recipes', label: 'Recipes' }] : []),
     ],
   },
@@ -27,7 +26,6 @@ const columns = [
     title: 'Company & help',
     links: [
       { to: '/our-farm', label: 'Our Farm' },
-      { to: '/why-us', label: 'Why Microgreen' },
       { to: '/about', label: 'About Us' },
       { to: '/contact', label: 'Contact us' },
       { to: '/faq', label: 'FAQs' },
@@ -42,19 +40,19 @@ export default function Footer() {
   return (
     <footer className="bg-brand-950 text-cream-100">
       <section aria-labelledby="newsletter-title" className="border-b border-white/10">
-        <div className="container-page grid items-center gap-6 py-12 lg:grid-cols-2 lg:gap-16">
-          <div>
+        <div className="container-page grid grid-cols-1 items-center gap-6 py-12 lg:grid-cols-2 lg:gap-16">
+          <Reveal className="min-w-0">
             <h2 id="newsletter-title" className="text-3xl text-white sm:text-4xl">
-              Join the <em className="text-brand-300">Microgreen kitchen</em>
+              Join the <em className="text-brand-300">{site.name} kitchen</em>
             </h2>
-            <p className="mt-3 text-cream-100/70">Microgreen tips, seasonal varieties and farm updates. One email a week, no spam.</p>
-          </div>
-          <NewsletterForm dark className="w-full max-w-xl lg:justify-self-end" />
+            <p className="mt-3 text-cream-100/70">Simple meal ideas, microgreens tips and news from {site.name}.</p>
+          </Reveal>
+          <NewsletterForm dark className="min-w-0 w-full max-w-xl lg:justify-self-end" />
         </div>
       </section>
 
-      <div className="container-page grid gap-12 py-16 lg:grid-cols-[1.3fr_2fr] lg:py-20">
-        <div className="max-w-sm">
+      <div className="container-page grid gap-12 py-16 lg:grid-cols-[0.8fr_2fr] lg:py-20 xl:grid-cols-[0.8fr_3fr]">
+        <Reveal className="min-w-0 max-w-sm">
           <Logo light />
           <p className="mt-5 font-display text-2xl leading-snug text-white">{site.tagline}</p>
           <p className="mt-3 text-sm leading-relaxed text-cream-100/70">
@@ -79,9 +77,9 @@ export default function Footer() {
               </a>
             ))}
           </div>
-        </div>
+        </Reveal>
 
-        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-[1fr_1fr_0.8fr_1.5fr]">
+        <div className="grid min-w-0 gap-8 sm:grid-cols-2 xl:grid-cols-[1fr_1fr_0.8fr_1.4fr]">
           {columns.map((col) => (
             <nav key={col.title} aria-label={`Footer ${col.title}`}>
               <h2 className="font-sans text-sm font-semibold tracking-wider text-brand-300 uppercase">{col.title}</h2>

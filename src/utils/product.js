@@ -65,7 +65,7 @@ export const SORT_OPTIONS = [
  * Pure filter + sort over the catalogue. Filters are the same shape as Shop's URL params,
  * so a future API could accept them as query params unchanged.
  */
-export function filterAndSortProducts(products, filters = {}) {
+export function filterAndSortProducts(products, filters = {}, { prioritizeStock = true } = {}) {
   const { q = '', categories = [], price = '', minRating = 0, tastes = [], inStock = false, onSale = false, sort = 'featured' } = filters;
   const range = PRICE_RANGES.find((r) => r.id === price);
 
@@ -93,9 +93,9 @@ export function filterAndSortProducts(products, filters = {}) {
     newest: (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     name: (a, b) => a.name.localeCompare(b.name),
   };
-  // Out-of-stock items always sink to the bottom, whatever the sort.
+  // Availability affects selling, but must not override ordering in an information catalogue.
   return [...result].sort(
-    (a, b) => Number(!isInStock(a)) - Number(!isInStock(b)) || (sorters[sort] || sorters.featured)(a, b),
+    (a, b) => (prioritizeStock ? Number(!isInStock(a)) - Number(!isInStock(b)) : 0) || (sorters[sort] || sorters.featured)(a, b),
   );
 }
 

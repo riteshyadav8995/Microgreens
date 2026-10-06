@@ -18,11 +18,12 @@ export default function HowWeGrow() {
   const varieties = (products ?? [])
     .filter((p) => p.category !== 'combos' && harvestRange(p.growingPeriod))
     .sort((a, b) => harvestRange(a.growingPeriod)[0] - harvestRange(b.growingPeriod)[0]);
+  const longestHarvest = Math.max(1, ...varieties.map((p) => harvestRange(p.growingPeriod)[1]));
 
   return (
     <>
       <PageHeader
-        image="/images/farm/led-racks.webp"
+        image="/images/farm/tray-row.webp"
         eyebrow="How we grow"
         title="From seed to your table, step by step"
         description="Most microgreens take roughly 7–21 days. Here is exactly what happens in each stage — and why it matters for what reaches your plate."
@@ -69,7 +70,7 @@ export default function HowWeGrow() {
           {loading ? (
             <TextSkeleton lines={6} />
           ) : (
-            <div className="overflow-x-auto rounded-3xl border border-line bg-white shadow-card">
+            <div role="region" aria-label="Harvest times by variety" tabIndex={0} className="relative overflow-x-auto rounded-3xl border border-line bg-white shadow-card">
               <table className="w-full min-w-[560px] text-left text-sm">
                 <caption className="sr-only">Typical days from sowing to harvest for each variety</caption>
                 <thead>
@@ -93,14 +94,13 @@ export default function HowWeGrow() {
                             </span>
                             <span>
                               {p.name}
-                              <span className="hindi block text-xs text-muted" lang="hi">{p.hindiName}</span>
                             </span>
                           </Link>
                         </th>
                         <td className="p-4 text-muted">{min}–{max} days</td>
                         <td className="p-4" aria-hidden>
                           <div className="relative h-2.5 rounded-full bg-cream-200">
-                            <span className="absolute inset-y-0 rounded-full bg-brand-600" style={{ left: `${(min / 22) * 100}%`, right: `${100 - (max / 22) * 100}%` }} />
+                            <span className="absolute inset-y-0 rounded-full bg-brand-600" style={{ left: `${(min / longestHarvest) * 100}%`, right: `${100 - (max / longestHarvest) * 100}%` }} />
                           </div>
                         </td>
                       </tr>

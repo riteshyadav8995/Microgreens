@@ -2,38 +2,39 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Check } from 'lucide-react';
 import { usePageMeta } from '../../hooks/usePageMeta';
 import { whyPillars } from '../../data/content';
-import ComparisonTable from '../../components/education/ComparisonTable';
+import { site } from '../../config/site';
 import { faqs } from '../../data/faqs';
 import PageHeader from '../../components/common/PageHeader';
 import SectionHeading from '../../components/common/SectionHeading';
 import Accordion from '../../components/common/Accordion';
 import Icon from '../../components/common/Icon';
 import Reveal from '../../components/common/Reveal';
+import { NextSteps } from '../Learn/WhatAreMicrogreens';
 
-const promises = [
-  { title: 'Freshness', image: '/images/farm/harvest-2.webp', body: 'Sown on a rolling schedule and cut in small batches, so greens spend as little time as possible between tray and table.', points: ['Harvest date on every box', 'Chilled delivery bags', 'Clear shelf-life guidance'] },
-  { title: 'Quality', image: '/images/farm/tray-care.webp', body: 'Every tray is checked daily. We harvest only when the first leaves have fully opened, and grade before packing.', points: ['Hand harvested', 'Bottom-watered, clean leaves', 'Ventilated, sturdy boxes'] },
-  { title: 'Local', image: '/images/farm/trays.webp', body: 'Grown close to the cities we deliver in, with Indian greens like methi, dhania and chaulai alongside global favourites.', points: ['Short travel time', 'Indian varieties', 'Support for local growing'] },
-  { title: 'Sustainability', image: '/images/farm/seedlings.webp', body: "We'd rather show our work than make big claims. Here's what we do today and what we're working on.", points: ['Reusable growing trays', 'Grow to order, less waste', 'Testing compostable packaging'] },
+const highlights = [
+  { title: 'Start with the flavours you enjoy', image: '/images/products/radish-1.webp', body: 'Microgreens vary in taste and texture. If you prefer something gentle, explore broccoli or pea shoots. For a stronger flavour, try radish or mustard. Each variety page helps you decide what suits your plate.', points: ['Taste and texture notes', 'Mild, peppery, nutty and herby choices', 'Suggestions based on your preferences'] },
+  { title: 'Make them part of everyday meals', image: '/images/recipes/dal-chawal.webp', body: 'You can start with a meal you already enjoy. Add a little dhania to chaat, mustard to dal or sunflower to a wrap. Our guides suggest pairings and explain when to add the greens.', points: ['Ideas for dal, poha, chaat and wraps', 'Varieties matched to meal types', 'Simple serving and storage guidance'] },
+  { title: 'Know what you are choosing', image: '/images/farm/seedlings.webp', body: 'Our variety pages explain flavour, typical growing time and ways to use each microgreen. The growing guide gives you the context behind those young leaves, so you can explore with confidence.', points: ['A step-by-step growing guide', 'Variety-specific information', 'Clear differences between sprouts and microgreens'] },
+  { title: 'Information you can check', image: '/images/farm/workbench.webp', body: 'You should be able to understand a product before choosing it. Our nutrient highlights draw on published research and are clearly distinguished from product-specific lab results. Certification details will be listed when officially in place. If you need more detail, ask us directly.', points: ['Research-based nutrient highlights', 'Clear notes on amounts and verification', 'Contact us with product questions'] },
 ];
 
 export default function WhyUs() {
-  usePageMeta('Why Microgreen', 'Freshness, quality, local growing and honest information — why Indian kitchens choose Microgreen.');
-  const faqItems = faqs.filter((f) => ['what-are-microgreens', 'sprouts-difference', 'organic', 'nutrition-info'].includes(f.id));
+  usePageMeta(`Why ${site.name}`, `Explore ${site.name}: flavour choices, everyday Indian meal ideas and clear information to help you choose microgreens.`);
+  const faqItems = faqs.filter((f) => ['organic', 'nutrition-info'].includes(f.id));
 
   return (
     <>
       <PageHeader
         image="/images/farm/workbench.webp"
-        eyebrow="Why Microgreen"
-        title="Fresh, local and honest — by design"
-        description="What makes our greens different isn't a secret formula. It's small batches, careful hands and telling you exactly what you're buying."
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Why Microgreen' }]}
+        eyebrow={`Why ${site.name}`}
+        title="Find greens that fit your taste and your kitchen"
+        description={`${site.name} brings together familiar varieties, simple meal ideas and clear product guidance to help you get started with microgreens.`}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: `Why ${site.name}` }]}
       />
 
       <section className="section" aria-labelledby="pillars-title">
         <div className="container-page">
-          <SectionHeading id="pillars-title" eyebrow="What we stand for" title="Six reasons to choose us" align="center" />
+          <SectionHeading id="pillars-title" eyebrow="Why explore with us?" title="Six ways we help you get started" align="center" />
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {whyPillars.map((p, i) => (
               <Reveal as="li" key={p.title} delay={i * 60} className="card p-7">
@@ -48,9 +49,9 @@ export default function WhyUs() {
         </div>
       </section>
 
-      <section className="section bg-cream-100" aria-label="Our promises">
+      <section className="section bg-cream-100" aria-label="Choosing your microgreens">
         <div className="container-page space-y-16 sm:space-y-24">
-          {promises.map((p, i) => (
+          {highlights.map((p, i) => (
             <div key={p.title} className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
               <Reveal className={i % 2 ? 'lg:order-2' : ''}>
                 <img src={p.image} alt="" loading="lazy" className="aspect-[4/3] w-full rounded-[2rem] object-cover shadow-card" />
@@ -75,16 +76,13 @@ export default function WhyUs() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="compare-title">
-        <div className="container-page">
-          <SectionHeading
-            id="compare-title"
-            eyebrow="Know your greens"
-            title="Sprouts, microgreens & mature plants"
-            description="They're often confused — here's how they differ."
-            align="center"
-          />
-          <ComparisonTable />
+      <section className="section" aria-labelledby="basics-title">
+        <div className="container-page text-center">
+          <h2 id="basics-title" className="text-3xl sm:text-4xl">Need a refresher on the basics?</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-muted">Our beginner's guide explains what microgreens are and how they differ from sprouts and mature plants.</p>
+          <Link to="/what-are-microgreens" className="btn-secondary group mt-6">
+            Read the beginner's guide <ArrowRight className="size-4 transition group-hover:translate-x-1" aria-hidden />
+          </Link>
         </div>
       </section>
 
@@ -93,9 +91,9 @@ export default function WhyUs() {
           <div>
             <p className="eyebrow">Straight answers</p>
             <h2 id="why-faq" className="mt-3 text-3xl sm:text-4xl">
-              Questions about our claims?
+              Questions about nutrition or certification?
             </h2>
-            <p className="mt-4 text-lg text-muted">We only say what we can back up. If something isn't verified yet, we'll tell you.</p>
+            <p className="mt-4 text-lg text-muted">Learn how we describe nutrient highlights and certification status. For questions about a specific variety, contact us.</p>
             <Link to="/faq" className="btn-secondary group mt-6">
               All FAQs <ArrowRight className="size-4 transition group-hover:translate-x-1" aria-hidden />
             </Link>
@@ -103,6 +101,9 @@ export default function WhyUs() {
           <Accordion items={faqItems.map((f) => ({ id: f.id, title: f.question, content: f.answer }))} />
         </div>
       </section>
+      <div className="pt-16 sm:pt-24">
+        <NextSteps />
+      </div>
     </>
   );
 }

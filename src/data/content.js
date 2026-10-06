@@ -4,6 +4,8 @@
  * the business before launch (BRD §4: claims must reflect the real business).
  */
 
+import { products } from './products';
+
 const farm = (name) => `/images/farm/${name}.webp`;
 const recipe = (name) => `/images/recipes/${name}.webp`;
 
@@ -79,7 +81,7 @@ export const growingSteps = [
     timing: 'Day 4–10+',
     phase: 'growth',
     icon: 'Sun',
-    image: farm('racks'),
+    image: farm('tray-row'),
     whatHappens: 'Plants receive suitable light, air and moisture.',
     explanation: 'Leaves open, turn green and develop colour and structure.',
     details: [
@@ -133,7 +135,7 @@ export const growingSteps = [
     details: [
       'Freshly cut greens are handled gently to avoid bruising.',
       'They are checked for quality, weighed and packed into ventilated boxes labelled with the harvest date.',
-      'Packed boxes are kept cool until they leave for delivery. (VERIFY: describe the brand’s actual handling and cooling steps.)',
+      'Keeping packed greens cool helps preserve freshness before they reach the kitchen. Handling instructions depend on the packaging and variety.',
     ],
   },
   {
@@ -146,7 +148,7 @@ export const growingSteps = [
     whatHappens: 'The order moves from the growing facility to your kitchen.',
     explanation: 'The seed-to-table journey is complete.',
     details: [
-      'Orders are dispatched in your chosen delivery slot.',
+      'After packing, greens are transported with care. Availability and delivery arrangements should be confirmed before ordering.',
       'When your box arrives, refrigerate it straight away and rinse the greens gently just before eating.',
       'From seed to your table — usually in one to three weeks, depending on the variety.',
     ],
@@ -257,24 +259,24 @@ export const MEAL_TYPES = {
 
 export const whyPillars = [
   {
-    icon: 'Scissors',
-    title: 'Harvested in small batches',
-    body: 'We cut to order in small batches instead of storing large stock, so greens spend less time waiting.',
+    icon: 'Sparkles',
+    title: 'Choose by flavour',
+    body: 'Explore mild broccoli, peppery radish, nutty sunflower and more, with taste notes for each variety.',
   },
   {
-    icon: 'ShieldCheck',
-    title: 'Grown with care, indoors',
-    body: 'Clean trays and bottom-watering mean no field soil splash and very little grit to wash off.',
+    icon: 'Sprout',
+    title: 'Understand the growing journey',
+    body: 'Our growing guide explains each stage, from choosing seeds to harvesting the young leaves.',
   },
   {
-    icon: 'MapPin',
-    title: 'Local to your city',
-    body: 'Grown close to where we deliver, which keeps travel time short and packaging simple.',
+    icon: 'Leaf',
+    title: 'Familiar greens, new possibilities',
+    body: 'Discover methi, dhania, sarson and chaulai alongside broccoli, kale and sunflower.',
   },
   {
-    icon: 'Snowflake',
-    title: 'Chilled, careful delivery',
-    body: 'Sturdy ventilated boxes travel in chilled bags so your greens arrive crisp, not crushed.',
+    icon: 'Sparkles',
+    title: 'Help finding your first variety',
+    body: 'Our three-question guide suggests microgreens based on your taste, meals and experience.',
   },
   {
     icon: 'ChefHat',
@@ -284,7 +286,7 @@ export const whyPillars = [
   {
     icon: 'BadgeCheck',
     title: 'Honest information',
-    body: 'Clear harvest, storage and shelf-life details. We only publish nutrition facts once they are verified.',
+    body: 'Read variety-specific taste, growing-time and storage guidance, with research-based nutrient highlights and clear notes on verification.',
   },
 ];
 
@@ -301,7 +303,7 @@ export const comparison = {
 };
 
 export const farmGallery = [
-  { src: farm('racks'), alt: 'Rows of microgreen trays growing on shelves under lights' },
+  { src: farm('tray-row'), alt: 'Young microgreens with their first leaves open, growing in trays' },
   { src: farm('tending'), alt: 'Grower in gloves checking a tray of microgreens' },
   { src: farm('harvest-2'), alt: 'Microgreens being cut by hand with scissors' },
   { src: farm('trays'), alt: 'Close-up of trays of young microgreens' },
@@ -310,48 +312,40 @@ export const farmGallery = [
 ];
 
 export const farmPractices = [
-  { icon: 'Droplets', title: 'Bottom watering', body: 'Water reaches roots from below so leaves stay dry and clean.' },
-  { icon: 'Sprout', title: 'Small batches', body: 'We sow on a rolling schedule to match orders rather than overproduce.' },
-  { icon: 'Hand', title: 'Hand harvested', body: 'Every tray is cut by hand, above the root line, with clean tools.' },
-  { icon: 'Recycle', title: 'Reusing what we can', body: 'We reuse trays and are testing ways to compost spent growing medium.' },
+  { icon: 'Droplets', title: 'Careful watering', body: 'Moisture supports germination and growth. Bottom watering supplies the roots while helping keep leaves dry.' },
+  { icon: 'Sun', title: 'Light and airflow', body: 'Suitable light and gentle airflow support the young plants as their first leaves open.' },
+  { icon: 'ClipboardCheck', title: 'Daily checks', body: 'Checking moisture, cleanliness and crop condition is part of the growing journey.' },
+  { icon: 'Scissors', title: 'Harvest young', body: 'Clean tools cut the stems above the roots when the variety reaches its target stage.' },
 ];
 
-// VERIFY: these are illustrative numbers — replace with real figures before launch.
+// Counts come from the catalogue and growing guide, rather than sample business metrics.
 export const farmStats = [
-  { value: '24', label: 'varieties & mixes' },
-  { value: '7–21', label: 'days from seed to harvest' },
-  { value: '6', label: 'cities served' },
-  { value: '100%', label: 'hand harvested' },
+  { value: String(products.length), label: 'varieties & mixes to explore' },
+  { value: '7–21', label: 'typical days to harvest' },
+  { value: String(growingSteps.length), label: 'steps in the growing guide' },
+  { value: String(PROCESS_PHASES.length), label: 'growing phases explained' },
 ];
 
 export const about = {
-  // VERIFY: sample founding story — replace with the real one.
   story: [
-    'Microgreen began in a spare room with a single shelf, a few trays and a simple question: why were the freshest, most flavourful greens so hard to find in Indian cities?',
-    'We started growing for friends and neighbours — methi for dal, radish for chaat, sunflower for the kids’ tiffin. Word spread, the shelf became a rack, and the rack became a grow house.',
-    'Today we grow a range of Indian and global microgreens for homes, home chefs and cafés, still sowing in small batches and harvesting by hand.',
+    'Mini\'s Greens is about making microgreens easy to understand and easy to bring into everyday Indian meals.',
+    'Familiar flavours such as methi, dhania and mustard sit alongside broccoli, radish, sunflower and pea shoots. The catalogue explains what each variety tastes like and where it fits on your plate.',
+    'From the first seed to young leaves, our guides explain the growing journey, handling and simple serving ideas. You can explore a variety, learn about it and ask us questions before choosing.',
   ],
   mission:
-    'To make fresh, flavourful greens an easy everyday habit in Indian kitchens — grown close to home, harvested with care and explained honestly.',
+    'To make fresh, flavourful greens an easy everyday habit in Indian kitchens — with simple meal ideas and clear, honest information.',
   vision: 'A plate of fresh greens in every Indian meal — from dal-chawal to dosa.',
   values: [
     { icon: 'Leaf', title: 'Freshness first', body: 'Every decision starts with how the greens will taste on your plate.' },
     { icon: 'BadgeCheck', title: 'Honesty', body: 'Clear information, no exaggerated claims. If we are not sure, we say so.' },
     { icon: 'HeartHandshake', title: 'Care', body: 'For the plants, for the people who grow them and for the customers who eat them.' },
-    { icon: 'Sprout', title: 'Always learning', body: 'We test new varieties, cooking ideas and packaging with feedback from our community.' },
+    { icon: 'Sprout', title: 'Always learning', body: 'Questions and feedback help us make variety information and meal ideas more useful.' },
   ],
   journey: [
-    { stage: 'The first shelf', body: 'A handful of trays and a lot of trial and error with methi, radish and sunflower.' },
-    { stage: 'Neighbourhood orders', body: 'Friends, neighbours and local home chefs became our first regular customers.' },
-    { stage: 'The grow house', body: 'A dedicated indoor space with racks, lights and a proper harvest-and-pack routine.' },
-    { stage: 'Online, across cities', body: 'This website — bringing our greens and how to use them to more Indian kitchens.' },
-  ],
-  // VERIFY: sample team — replace with real names, roles and photos.
-  team: [
-    { name: 'Founder', role: 'Founder & Head Grower', bio: 'Started Microgreen on a single shelf and still checks the trays every morning.' },
-    { name: 'Growing Lead', role: 'Farm Operations', bio: 'Runs sowing schedules, harvest planning and quality checks.' },
-    { name: 'Kitchen Lead', role: 'Kitchen & Community', bio: 'Finds simple ways to bring microgreens into everyday Indian meals.' },
-    { name: 'Customer Care', role: 'Customer Happiness', bio: 'Answers your questions on WhatsApp, email and phone.' },
+    { stage: 'Get to know them', body: 'See how microgreens differ from sprouts and mature vegetables.' },
+    { stage: 'Follow the growing journey', body: 'Explore sowing, germination, growth and harvest in our nine-step guide.' },
+    { stage: 'Find your variety', body: 'Compare flavours and nutrient highlights, or try the three-question finder.' },
+    { stage: 'Bring them to your plate', body: 'Use the eating and storage guides for a fresh finish to everyday meals.' },
   ],
 };
 

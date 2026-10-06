@@ -33,7 +33,7 @@ export const site = {
     phone: '+91 98765 43210',
     phoneHref: 'tel:+919876543210',
     whatsappHref: 'https://wa.me/919876543210',
-    email: 'hello@microgreen.in',
+    email: 'hello@minisgreens.example',
     address: 'Ramky Selenium, Plot No. 31 & 32, Financial District, Nanakramguda, Gachibowli, Hyderabad, Telangana 500032',
     hours: 'Mon – Sat, 8:00 AM – 7:00 PM',
     mapQuery: 'Ramky Selenium, Financial District, Nanakramguda, Hyderabad, Telangana 500032',
@@ -93,8 +93,6 @@ export const site = {
   // Override with VITE_FORMSPREE_ENDPOINT (full URL like https://formspree.io/f/xoevdakp, or just the form ID).
   contactForm: {
     endpoint: formspreeEndpoint(import.meta.env.VITE_FORMSPREE_ENDPOINT || import.meta.env.VITE_FORMSUBMIT_EMAIL),
-    // Used by the "Send by email" button shown if the form can't be sent.
-    fallbackEmail: 'rk5061288@gmail.com',
   },
 };
 

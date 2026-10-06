@@ -2,14 +2,13 @@ import { Link } from 'react-router-dom';
 import { usePageMeta } from '../../hooks/usePageMeta';
 import { about } from '../../data/content';
 import { site } from '../../config/site';
-import { initials } from '../../utils/format';
 import PageHeader from '../../components/common/PageHeader';
 import SectionHeading from '../../components/common/SectionHeading';
 import Icon from '../../components/common/Icon';
 import Reveal from '../../components/common/Reveal';
 
 export default function About() {
-  usePageMeta('About Us', 'Our story, mission and values — the people behind Microgreen India.');
+  usePageMeta('About Us', `Our purpose, mission and values — get to know ${site.name}.`);
 
   return (
     <>
@@ -30,9 +29,9 @@ export default function About() {
             </div>
           </Reveal>
           <Reveal delay={120}>
-            <p className="eyebrow">Our story</p>
+            <p className="eyebrow">Our purpose</p>
             <h2 id="story-title" className="mt-3 text-3xl leading-tight sm:text-4xl lg:text-5xl">
-              It started with a single shelf.
+              Small greens, familiar meals.
             </h2>
             <div className="prose-mg mt-6 text-lg">
               {about.story.map((p) => (
@@ -45,16 +44,16 @@ export default function About() {
 
       <section className="section bg-cream-100" aria-labelledby="mission-title">
         <div className="container-page grid gap-6 md:grid-cols-2">
-          <div className="card p-8 sm:p-10">
+          <Reveal className="card p-8 sm:p-10">
             <p className="eyebrow">Our mission</p>
             <h2 id="mission-title" className="mt-3 text-2xl leading-snug sm:text-3xl">
               {about.mission}
             </h2>
-          </div>
-          <div className="rounded-3xl bg-brand-800 p-8 text-white shadow-card sm:p-10">
+          </Reveal>
+          <Reveal delay={100} className="rounded-3xl bg-brand-800 p-8 text-white shadow-card sm:p-10">
             <p className="eyebrow text-brand-300">Our vision</p>
             <p className="mt-3 font-display text-2xl leading-snug sm:text-3xl">{about.vision}</p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -77,9 +76,9 @@ export default function About() {
 
       <section className="section bg-brand-950 text-cream-100" aria-labelledby="journey-title">
         <div className="container-page">
-          <p className="eyebrow text-brand-300">Our journey</p>
+          <p className="eyebrow text-brand-300">Explore with us</p>
           <h2 id="journey-title" className="mt-3 text-3xl text-white sm:text-4xl">
-            From a shelf to your city
+            From curiosity to your kitchen
           </h2>
           <ol className="mt-12 grid gap-8 md:grid-cols-4">
             {about.journey.map((j, i) => (
@@ -94,22 +93,10 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="team-title">
+      <section className="section" aria-labelledby="about-contact-title">
         <div className="container-page">
-          <SectionHeading id="team-title" eyebrow="Our team" title="The people behind your greens" description="A small team of growers, cooks and helpers." align="center" />
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {about.team.map((m) => (
-              <li key={m.role} className="card p-6 text-center">
-                <span className="mx-auto grid size-20 place-items-center rounded-full bg-linear-to-br from-brand-200 to-brand-400 font-display text-2xl text-brand-950">
-                  {initials(m.name)}
-                </span>
-                <h3 className="mt-4 font-sans text-lg font-semibold tracking-normal">{m.name}</h3>
-                <p className="text-sm font-medium text-brand-600">{m.role}</p>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{m.bio}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-14 text-center">
+          <SectionHeading id="about-contact-title" eyebrow="Let's talk greens" title="Questions, ideas or collaborations?" description={`Get in touch with ${site.name} to learn more.`} align="center" />
+          <div className="text-center">
             <p className="text-lg text-muted">Want to stock our greens, visit the farm or work with us?</p>
             <div className="mt-5 flex flex-wrap justify-center gap-3">
               <Link to="/contact" className="btn-primary">

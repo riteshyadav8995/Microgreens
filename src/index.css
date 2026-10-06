@@ -216,7 +216,154 @@
   transform: none;
 }
 
+/* Full-width, automatically changing hero inspired by the brand's floating forms. */
+.hero-banner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  min-height: calc(100svh - var(--hero-top, 116px));
+  padding-block: clamp(2rem, 5vh, 4rem) 1.25rem;
+  overflow: hidden;
+  color: white;
+  background: radial-gradient(120% 90% at 80% 20%, #5f8a2c 0%, #2d4a1e 45%, #14230b 100%);
+}
+.hero-orbs { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.hero-orbit { position: absolute; width: min(48vw, 620px); aspect-ratio: 1; border: 1px solid rgb(255 255 255 / .09); border-radius: 50%; right: -5%; top: 4%; }
+.hero-panels { display: grid; flex: 1; align-items: center; min-width: 0; }
+.hero-panel { grid-area: 1 / 1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; min-width: 0; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.hero-panel.is-active { opacity: 1; pointer-events: auto; transition: opacity 1.5s ease; }
+.hero-copy { width: 100%; min-width: 0; padding-block: 1rem 2rem; }
+.hero-panel.is-active .hero-copy > * { animation: hero-soft-reveal 1.5s cubic-bezier(.16, 1, .3, 1) both; }
+.hero-panel.is-active .hero-headline { animation-delay: 80ms; }
+.hero-panel.is-active .hero-description { animation-delay: 160ms; }
+.hero-panel.is-active .hero-copy > div { animation-delay: 240ms; }
+.hero-visual { width: 100%; max-width: min(430px, 43svh); margin: 1rem auto; }
+.hero-leaf-frame { aspect-ratio: 1; overflow: hidden; border-radius: 54% 46% 16% 46%; border: 1px solid rgb(211 232 178 / .3); box-shadow: 0 25px 65px rgb(0 0 0 / .24); background: #35572c; }
+.hero-leaf-frame img { width: 100%; height: 100%; object-fit: cover; }
+.hero-visual figcaption { margin-top: 1.25rem; text-align: center; color: #d3e8b2; font-family: var(--font-display); font-size: 1.15rem; font-style: italic; }
+.hero-panel.is-active .hero-visual { animation: hero-visual-reveal 1.5s cubic-bezier(.16, 1, .3, 1) both; }
+.hero-panel.is-active .hero-leaf-frame img { animation: hero-photo-drift 9s ease-in-out infinite; }
+.hero-eyebrow { color: #d3e8b2; font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.hero-headline { max-width: 13ch; margin-top: 1.25rem; color: white; font-size: clamp(2.5rem, 5.5vw, 5.5rem); line-height: 1.04; overflow-wrap: break-word; }
+.hero-headline em { color: #d3e8b2; }
+.hero-description { max-width: 43ch; margin-top: 1.5rem; color: rgb(255 255 255 / .8); font-size: clamp(1rem, 1.35vw, 1.15rem); line-height: 1.7; }
+.hero-banner-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1rem; }
+.hero-indicator { display: block; width: 1.25rem; height: 3px; border-radius: 99px; background: rgb(255 255 255 / .25); transition: width .4s ease, background .4s ease; }
+.hero-indicator.is-active { width: 2.5rem; background: #d3e8b2; }
+@keyframes hero-soft-reveal { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: none; } }
+@keyframes hero-visual-reveal { from { opacity: 0; transform: translateX(28px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes hero-photo-drift { 0%, 100% { transform: scale(1.01); } 50% { transform: scale(1.07); } }
+@media (min-width: 768px) and (max-height: 800px) {
+  .hero-banner { padding-top: 1.5rem; }
+  .hero-headline { max-width: none; font-size: clamp(2.5rem, 4vw, 3.8rem); }
+  .hero-description { margin-top: 1rem; line-height: 1.6; }
+  .hero-copy { padding-block: .5rem 1rem; }
+}
+@media (max-width: 767px) {
+  .hero-orbs { opacity: .3; }
+  .hero-panel { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .hero-visual { max-width: min(270px, 35svh); }
+  .hero-copy { padding-bottom: 1rem; }
+  .hero-headline { font-size: clamp(2.5rem, 9vw, 4rem); }
+}
 @media (prefers-reduced-motion: reduce) {
+  .hero-panel { transform: none; transition: none; }
+  .hero-panel.is-active .hero-copy > *, .hero-panel.is-active .hero-visual, .hero-panel.is-active .hero-leaf-frame img { animation: none; }
+}
+
+/* A single, staggered reveal follows the seed-to-plant journey. */
+.stage-journey-step.reveal { transform: translateY(32px); transition-duration: 1.1s; }
+.stage-journey-step.reveal.is-visible { transform: none; }
+.stage-journey-card { transition: transform .45s ease, box-shadow .45s ease; }
+.stage-journey-card:hover { transform: translateY(-5px); box-shadow: 0 18px 35px -18px rgb(24 58 36 / .35); }
+.stage-journey-image { transition: transform .9s ease; }
+.stage-journey-card:hover .stage-journey-image { transform: scale(1.04); }
+.stage-journey-step.is-visible .stage-journey-image { animation: stage-photo-reveal 1.4s ease-out backwards; }
+.stage-journey-step.is-visible .stage-journey-arrow svg { animation: stage-arrow-forward 1.1s ease-in-out 2; animation-delay: .8s; }
+.stage-journey-step.is-visible .stage-harvest-badge { animation: stage-harvest-emphasis 1.8s ease-out; animation-delay: .8s; }
+@keyframes stage-photo-reveal { from { opacity: .45; transform: scale(1.07); } to { opacity: 1; transform: scale(1); } }
+@keyframes stage-arrow-forward { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+@keyframes stage-harvest-emphasis { 0%, 100% { box-shadow: 0 0 0 0 rgb(55 136 74 / 0); } 45% { box-shadow: 0 0 0 7px rgb(55 136 74 / .2); } }
+@media (prefers-reduced-motion: reduce) {
+  .stage-journey-step.reveal { opacity: 1; transform: none; }
+  .stage-journey-step.is-visible .stage-journey-image,
+  .stage-journey-step.is-visible .stage-journey-arrow svg,
+  .stage-journey-step.is-visible .stage-harvest-badge { animation: none; }
+  .stage-journey-card:hover, .stage-journey-card:hover .stage-journey-image { transform: none; }
+}
+
+/* Growing illustrations finish within four seconds and settle on a static scene. */
+.growth-illustration:not(.is-visible) .growth-stem { stroke-dashoffset: 1; }
+.growth-illustration:not(.is-visible) .growth-leaves,
+.growth-illustration:not(.is-visible) .growth-cut,
+.growth-illustration:not(.is-visible) .growth-seed,
+.growth-illustration:not(.is-visible) .growth-water { opacity: 0; }
+.growth-illustration .growth-stem {
+  stroke-dasharray: 1;
+}
+.growth-illustration.is-visible .growth-stem {
+  animation: growth-stem 1.7s ease-out backwards;
+  animation-delay: var(--growth-delay, 0ms);
+}
+.growth-illustration.is-visible .growth-leaves {
+  animation: growth-leaves 1.4s ease-out backwards;
+  animation-delay: calc(700ms + var(--growth-delay, 0ms));
+}
+.growth-illustration.is-visible .growth-seed {
+  animation: growth-seed 1s ease-out backwards;
+  animation-delay: var(--growth-delay, 0ms);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.growth-illustration.is-visible .growth-water {
+  animation: growth-water 2.4s ease-in-out backwards;
+  animation-delay: var(--growth-delay, 0ms);
+}
+.growth-illustration.is-visible .growth-sun {
+  animation: growth-sun 3s ease-out backwards;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.growth-illustration.is-visible .growth-cut {
+  animation: growth-cut 1s ease-out backwards;
+  animation-delay: 2.6s;
+}
+@keyframes growth-stem {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes growth-leaves {
+  from { opacity: 0; transform: scale(0.15); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes growth-seed {
+  from { opacity: 0; transform: translateY(-30px) rotate(-25deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes growth-water {
+  0% { opacity: 0; transform: translateY(-16px); }
+  30% { opacity: 1; }
+  75% { opacity: 0; transform: translateY(25px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes growth-sun {
+  from { opacity: 0.4; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes growth-cut {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .growth-illustration:not(.is-visible) .growth-stem { stroke-dashoffset: 0; }
+  .growth-illustration:not(.is-visible) .growth-leaves,
+  .growth-illustration:not(.is-visible) .growth-cut,
+  .growth-illustration:not(.is-visible) .growth-seed,
+  .growth-illustration:not(.is-visible) .growth-water { opacity: 1; }
   *,
   *::before,
   *::after {

@@ -1,38 +1,24 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShoppingBag, Sprout } from 'lucide-react';
-import { useCart } from '../../context/CartContext';
-import { TAG_LABELS } from '../../data/products';
-import { categories } from '../../data/categories';
-import { discountPercent, getVariant, isInStock } from '../../utils/product';
-import ProductRating from './ProductRating';
+import { ArrowRight, Sprout } from 'lucide-react';
+import { getVariant, isInStock } from '../../utils/product';
+import { getNutrientHighlights } from '../../data/productNutrients';
 import PriceTag from './PriceTag';
 import WishlistButton from './WishlistButton';
-import VariantSelector from './VariantSelector';
 import { site } from '../../config/site';
-import { harvestRange } from '../process/VarietyTimeline';
 
 const SHOP = site.features.shop;
 
-const BADGE_STYLES = {
-  'best-seller': 'bg-brand-700 text-white',
-  new: 'bg-turmeric-400 text-brand-950',
-  'indian-favourite': 'bg-beet-500 text-white',
-};
-
-/**
- * Text-only variety card (no stock photos), modelled on a seed-catalogue entry:
- * category, name, Hindi name, botanical name, flavour, short description and grow time.
- */
+/** A compact preview: image, English name and researched nutrient highlights. */
 export default function ProductCard({ product }) {
   const [variantId] = useState(product.variants[0].id);
   const variant = getVariant(product, variantId);
   const inStock = isInStock(product);
   const url = `/product/${product.id}`;
-  const category = categories.find((c) => c.id === product.category);
+  const nutrients = getNutrientHighlights(product);
 
   return (
-    <article className="group card relative flex h-full flex-col overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-soft">
+    <article className="group card relative flex h-full flex-col overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-soft focus-within:ring-2 focus-within:ring-brand-600 focus-within:ring-offset-2">
       {/* Product Image */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-cream-50">
         {product.images && product.images.length > 0 ? (
@@ -49,7 +35,6 @@ export default function ProductCard({ product }) {
         )}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5">
           {SHOP && !inStock && <span className="badge bg-ink text-white shadow-sm">Sold out</span>}
-          {product.tags.includes('best-seller') && <span className="badge bg-brand-700 text-white shadow-sm">Best seller</span>}
         </div>
         {SHOP && (
           <div className="absolute top-3 right-3">
@@ -59,16 +44,16 @@ export default function ProductCard({ product }) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <p className="text-[0.7rem] font-semibold tracking-wider text-brand-600 uppercase">{category?.name}</p>
-        
-        <h3 className="mt-2 text-xl leading-tight">
+        <h3 className="text-xl leading-tight">
           <Link to={url} className="after:absolute after:inset-0 after:content-[''] group-hover:text-brand-700 focus-visible:outline-none">
             {product.name}
           </Link>
         </h3>
         
-        {/* Short nutrition / benefit highlight */}
-        <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted">{product.shortDescription}</p>
+        <p className="mt-3 text-xs font-semibold tracking-wider text-brand-600 uppercase">Nutrient highlights</p>
+        <p className="mt-1.5 text-sm leading-relaxed text-muted">
+          {nutrients.length ? nutrients.join(' · ') : 'Nutrition profile awaiting verification.'}
+        </p>
 
         <div className="mt-auto pt-5">
           {SHOP ? (

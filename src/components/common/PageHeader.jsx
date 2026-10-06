@@ -14,7 +14,7 @@ export default function PageHeader({ title, eyebrow, description, breadcrumb, im
               className="mb-6 [&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white/70 [&_span[aria-current]]:text-white"
             />
           )}
-          {eyebrow && <p className="eyebrow mb-4 text-brand-300">{eyebrow}</p>}
+          {eyebrow && <p className="eyebrow mb-4 animate-fade-up text-brand-300">{eyebrow}</p>}
           <h1 className="max-w-3xl animate-fade-up text-4xl text-white sm:text-5xl lg:text-6xl">{title}</h1>
           {description && <p className="mt-5 max-w-2xl animate-fade-up text-lg text-white/80 [animation-delay:120ms]">{description}</p>}
           {children}
@@ -32,9 +32,9 @@ export default function PageHeader({ title, eyebrow, description, breadcrumb, im
       </div>
       <div className="container-page relative py-10 sm:py-14">
         {breadcrumb && <Breadcrumb items={breadcrumb} className="mb-5" />}
-        {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
-        <h1 className="text-4xl sm:text-5xl">{title}</h1>
-        {description && <p className="mt-4 max-w-2xl text-lg text-muted">{description}</p>}
+        {eyebrow && <p className="eyebrow mb-3 animate-fade-up">{eyebrow}</p>}
+        <h1 className="animate-fade-up text-4xl sm:text-5xl">{title}</h1>
+        {description && <p className="mt-4 max-w-2xl animate-fade-up text-lg text-muted [animation-delay:120ms]">{description}</p>}
         {children}
       </div>
     </section>

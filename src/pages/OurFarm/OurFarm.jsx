@@ -10,15 +10,15 @@ import Icon from '../../components/common/Icon';
 import Reveal from '../../components/common/Reveal';
 
 export default function OurFarm() {
-  usePageMeta('Our Farm & How We Grow', 'Step inside our grow house and follow every microgreen from seed to your table — sowing, germination, light, hand harvest and chilled delivery.');
+  usePageMeta('Our Farm & How We Grow', 'Explore the microgreens growing journey — sowing, germination, light, daily care, harvest and handling.');
 
   return (
     <>
       <PageHeader
-        image="/images/farm/led-racks.webp"
+        image="/images/farm/tending.webp"
         eyebrow="Our farm · How we grow"
         title="From our farm to your table"
-        description="An indoor grow house where tiny greens get a clean, calm start — and reach your kitchen within days of harvest."
+        description="A closer look at indoor microgreens growing, from sowing and daily care to young leaves ready for harvest."
         breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Our Farm' }]}
       />
 
@@ -27,16 +27,16 @@ export default function OurFarm() {
           <Reveal>
             <p className="eyebrow">Our grow house</p>
             <h2 id="farm-story" className="mt-3 text-3xl leading-tight sm:text-4xl lg:text-5xl">
-              Grown indoors, in small batches, by hand.
+              A little care, from seed to young leaves.
             </h2>
             <div className="prose-mg mt-6 text-lg">
               <p>
-                Microgreens grow fast — most are ready in one to three weeks. That speed means we can sow on a rolling schedule and harvest close to
-                delivery, instead of growing big batches and storing them.
+                Microgreens grow fast — many varieties reach their harvest stage in roughly one to three weeks. Each variety has its own pace,
+                with timing affected by growing conditions and season.
               </p>
               <p>
-                Our trays sit on racks indoors where light, water and airflow are easy to keep consistent. Every tray is checked daily, and every
-                harvest is cut by hand.
+                Indoor trays and racks make it possible to manage light, water and airflow. Our growing guide explains the checks along the way
+                and how young stems and leaves are harvested above the roots.
               </p>
             </div>
             <Link to={site.features.shop ? '/shop' : '/how-we-grow'} className="btn-primary group mt-4">
@@ -50,13 +50,13 @@ export default function OurFarm() {
         </div>
       </section>
 
-      <section className="bg-brand-900 py-12" aria-label="Farm at a glance">
+      <section className="bg-brand-900 py-12" aria-label="Microgreens at a glance">
         <dl className="container-page grid grid-cols-2 gap-6 text-center md:grid-cols-4">
-          {farmStats.map((s) => (
-            <div key={s.label} className="flex flex-col-reverse">
+          {farmStats.map((s, i) => (
+            <Reveal key={s.label} delay={i * 80} className="flex flex-col-reverse">
               <dt className="text-sm text-brand-200">{s.label}</dt>
               <dd className="font-display text-4xl text-white sm:text-5xl">{s.value}</dd>
-            </div>
+            </Reveal>
           ))}
         </dl>
       </section>
@@ -95,10 +95,10 @@ export default function OurFarm() {
         <div className="container-page">
           <SectionHeading id="gallery-title" eyebrow="Inside the grow house" title="A look around" />
           <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
-            {farmGallery.map((img) => (
-              <li key={img.src} className="aspect-[4/3] overflow-hidden rounded-3xl">
+            {farmGallery.map((img, i) => (
+              <Reveal as="li" key={img.src} delay={(i % 3) * 80} className="aspect-[4/3] overflow-hidden rounded-3xl">
                 <img src={img.src} alt={img.alt} loading="lazy" className="size-full object-cover transition duration-700 hover:scale-105" />
-              </li>
+              </Reveal>
             ))}
           </ul>
         </div>
@@ -107,17 +107,17 @@ export default function OurFarm() {
       <section className="pb-16 sm:pb-24">
         <div className="container-page">
           <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-brand-800 px-6 py-14 text-center sm:px-12">
-            <img src="/images/farm/greenhouse.webp" alt="" loading="lazy" className="absolute inset-0 -z-10 size-full object-cover opacity-25" />
+            <img src="/images/farm/trays.webp" alt="" loading="lazy" className="absolute inset-0 -z-10 size-full object-cover opacity-25" />
             <h2 className="mx-auto max-w-2xl text-3xl text-white sm:text-4xl">Want to see it for yourself?</h2>
             <p className="mx-auto mt-4 max-w-xl text-white/80">
-              We host small farm visits for schools, chefs and curious customers from time to time. Drop us a line and we'll let you know.
+              Curious about the growing space? Contact us to ask about visit availability and arrangements for schools, chefs or your group.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link to="/contact" className="btn-accent">
                 Ask about a visit
               </Link>
               <Link to="/why-us" className="btn-light">
-                Why Microgreen
+                Why {site.name}
               </Link>
             </div>
           </div>

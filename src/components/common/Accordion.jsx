@@ -46,6 +46,7 @@ export default function Accordion({ items, multiple = false, defaultOpen = [], c
               id={panelId}
               role="region"
               aria-labelledby={buttonId}
+              aria-hidden={!isOpen}
               className={`grid transition-[grid-template-rows] duration-300 ease-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
             >
               <div className="overflow-hidden" inert={!isOpen}>

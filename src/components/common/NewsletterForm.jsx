@@ -18,14 +18,19 @@ export default function NewsletterForm({ dark = false, className = '' }) {
     }
     setError('');
     setStatus('loading');
-    await subscribeNewsletter(email.trim().toLowerCase());
-    setStatus('success');
+    try {
+      await subscribeNewsletter(email.trim().toLowerCase());
+      setStatus('success');
+    } catch (err) {
+      setError(err.message || 'We could not send your signup request. Please try again.');
+      setStatus('idle');
+    }
   };
 
   if (status === 'success') {
     return (
       <p role="status" className={`flex items-center gap-2 text-sm font-medium ${dark ? 'text-brand-200' : 'text-brand-700'} ${className}`}>
-        <CircleCheck className="size-5" aria-hidden /> You're on the list! Look out for microgreen tips and updates.
+        <CircleCheck className="size-5 shrink-0" aria-hidden /> Thanks! Your request for microgreens updates has been received.
       </p>
     );
   }
@@ -42,6 +47,7 @@ export default function NewsletterForm({ dark = false, className = '' }) {
           autoComplete="email"
           placeholder="Your email address"
           value={email}
+          disabled={status === 'loading'}
           onChange={(e) => setEmail(e.target.value)}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? `${id}-error` : undefined}
@@ -52,7 +58,7 @@ export default function NewsletterForm({ dark = false, className = '' }) {
         </button>
       </div>
       {error && (
-        <p id={`${id}-error`} className={`mt-2 px-4 text-xs font-medium ${dark ? 'text-red-300' : 'text-red-600'}`}>
+        <p id={`${id}-error`} role="alert" className={`mt-2 px-4 text-xs font-medium ${dark ? 'text-red-300' : 'text-red-600'}`}>
           {error}
         </p>
       )}

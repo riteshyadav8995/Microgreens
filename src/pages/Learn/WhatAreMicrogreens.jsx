@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { learnLinks } from '../../components/navbar/navLinks';
 import { ArrowRight, Leaf, Scissors, Timer } from 'lucide-react';
 import { usePageMeta } from '../../hooks/usePageMeta';
 import { faqs } from '../../data/faqs';
@@ -8,6 +9,7 @@ import Accordion from '../../components/common/Accordion';
 import StageJourney from '../../components/education/StageJourney';
 import ComparisonTable from '../../components/education/ComparisonTable';
 import WhyMicrogreensGrid from '../../components/education/WhyMicrogreensGrid';
+import Reveal from '../../components/common/Reveal';
 
 const FACTS = [
   { icon: Leaf, title: 'Young edible plants', body: 'Vegetables and herbs picked at a very early stage — not seeds, not full-grown plants.' },
@@ -79,6 +81,7 @@ export default function WhatAreMicrogreens() {
             title="Microgreens vs sprouts vs mature plants"
             description="Sprouts and microgreens are often mixed up. Here's how they differ."
             align="center"
+            className="heading-wide"
           />
           <ComparisonTable />
         </div>
@@ -89,8 +92,8 @@ export default function WhatAreMicrogreens() {
           <SectionHeading id="why-title" eyebrow="Why microgreens?" title="Why people add them to everyday food" align="center" />
           <WhyMicrogreensGrid />
           <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-muted">
-            Microgreens are food, not medicine. We don't make health claims; verified nutrition information will be shared per product once
-            lab-tested.
+            Explore research-based nutrient highlights on each variety page. These are general information, not product-specific lab results
+            or measured nutrient amounts.
           </p>
         </div>
       </section>
@@ -114,22 +117,22 @@ export default function WhatAreMicrogreens() {
 }
 
 export function NextSteps() {
-  const links = [
-    { to: '/how-we-grow', title: 'How we grow', body: 'Follow all 9 steps from seed to your table.' },
-    { to: '/how-to-eat', title: 'How to eat them', body: 'Everyday Indian meals, from dal to dosa.' },
-    { to: '/find-my-microgreen', title: 'Find my microgreen', body: 'Three questions, a perfect match.' },
-  ];
+  const { pathname } = useLocation();
+  const currentIndex = learnLinks.findIndex((link) => link.to === pathname);
+  const links = learnLinks.slice(currentIndex + 1);
+  if (!links.length) return null;
+  const columns = links.length === 3 ? 'md:grid-cols-3' : links.length > 1 ? 'md:grid-cols-2' : '';
   return (
     <section className="pb-16 sm:pb-24" aria-label="Keep learning">
-      <div className="container-page grid gap-4 md:grid-cols-3">
-        {links.map((l) => (
-          <Link key={l.to} to={l.to} className="group rounded-3xl bg-brand-900 p-7 text-white transition hover:bg-brand-800">
-            <p className="font-display text-2xl">{l.title}</p>
-            <p className="mt-2 text-sm text-white/75">{l.body}</p>
+      <div className={`container-page grid gap-4 ${columns}`}>
+        {links.map((l, i) => (
+          <Reveal as={Link} key={l.to} to={l.to} delay={i * 70} className="group rounded-3xl bg-brand-900 p-7 text-white transition hover:bg-brand-800">
+            <p className="font-display text-2xl">{l.label}</p>
+            <p className="mt-2 text-sm text-white/75">{l.description}</p>
             <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-turmeric-400">
               Continue <ArrowRight className="size-4 transition group-hover:translate-x-1" aria-hidden />
             </span>
-          </Link>
+          </Reveal>
         ))}
       </div>
     </section>

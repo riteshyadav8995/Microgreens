@@ -5,11 +5,12 @@
  * - botanicalName: scientific name (combos have none — they list ingredients instead)
  * - texture:   how it feels to eat
  * - mealTypes: keys of MEAL_TYPES in content.js
- * - howToEat:  'raw' | 'raw-or-warm' — VERIFY against real brand guidance and packaging
+ * - howToEat:  'raw' | 'raw-or-warm' | 'juice-or-blend'
  * - bestWays:  everyday Indian ways to use it
  */
 const RAW = 'raw';
 const BOTH = 'raw-or-warm';
+const JUICE = 'juice-or-blend';
 
 export const productEducation = {
   'broccoli-microgreens': {
@@ -38,7 +39,7 @@ export const productEducation = {
     texture: 'Thick, juicy and crunchy',
     mealTypes: ['breakfast', 'lunch', 'snack', 'smoothie'],
     howToEat: RAW,
-    bestWays: ['Folded into masala dosa', 'In roti wraps and sandwiches', 'As a salad base', 'Straight from the box as a snack'],
+    bestWays: ['Folded into masala dosa', 'In roti wraps and sandwiches', 'As a salad base', 'Rinsed just before serving as a crunchy snack'],
   },
   'pea-shoots': {
     botanicalName: 'Pisum sativum',
@@ -135,14 +136,14 @@ export const productEducation = {
     botanicalName: 'Triticum aestivum',
     texture: 'Fibrous — best blended or juiced',
     mealTypes: ['breakfast', 'smoothie'],
-    howToEat: RAW,
+    howToEat: JUICE,
     bestWays: ['Blended with apple, amla or lemon', 'In green juices', 'As a small morning shot'],
   },
   'wheatgrass-live-tray': {
     botanicalName: 'Triticum aestivum',
     texture: 'Fibrous — best blended or juiced',
     mealTypes: ['breakfast', 'smoothie'],
-    howToEat: RAW,
+    howToEat: JUICE,
     bestWays: ['Cut fresh each morning for juices', 'In smoothies'],
   },
   'starter-mix': {
@@ -167,6 +168,7 @@ export const productEducation = {
     texture: 'Mix of fibrous and tender',
     mealTypes: ['breakfast', 'smoothie'],
     howToEat: RAW,
+    servingNote: 'Juice or blend the wheatgrass. Use the separately packed broccoli, kale and sunflower in smoothies or salads after rinsing.',
     bestWays: ['A week of smoothies', 'Green juices', 'Salads'],
   },
   'desi-tadka-mix': {
@@ -180,4 +182,5 @@ export const productEducation = {
 export const HOW_TO_EAT_LABELS = {
   raw: 'Best eaten raw — add just before serving.',
   'raw-or-warm': 'Eat raw, or add to warm food after cooking. Avoid long cooking.',
+  'juice-or-blend': 'Rinse the cut greens, then juice or blend them. Wheatgrass has a fibrous texture.',
 };

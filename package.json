@@ -1,9 +1,9 @@
 {
-  "name": "microgreen-india",
+  "name": "minis-greens",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Microgreen India — frontend-only D2C website (React + Vite + Tailwind CSS)",
+  "description": "Mini's Greens — microgreens education and catalogue website (React + Vite + Tailwind CSS)",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -19,7 +19,7 @@ export default function WhyMicrogreensGrid({ dark = false }) {
             </span>
             <h3 className={`font-sans text-base leading-tight font-semibold tracking-normal ${dark ? 'text-white' : ''}`}>{w.title}</h3>
           </div>
-          <p className={`mt-3 text-xs leading-relaxed line-clamp-2 ${dark ? 'text-cream-100/70' : 'text-muted'}`}>{w.body}</p>
+          <p className={`mt-3 text-sm leading-relaxed ${dark ? 'text-cream-100/70' : 'text-muted'}`}>{w.body}</p>
         </Reveal>
       ))}
     </ul>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Check, ChefHat, Flame, Leaf, MessageCircle, PackageSearch, Refrigerator, Sprout } from 'lucide-react';
+import { Check, Flame, GlassWater, Leaf, PackageSearch, Refrigerator, Sprout } from 'lucide-react';
 import { useAsync } from '../../hooks/useAsync';
 import { usePageMeta } from '../../hooks/usePageMeta';
 import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
@@ -19,17 +19,19 @@ import RecipeCard from '../../components/recipe/RecipeCard';
 import VarietyTimeline, { harvestRange } from '../../components/process/VarietyTimeline';
 import { TasteBadge, UseCaseBadge } from '../../components/product/Badges';
 import { HOW_TO_EAT_LABELS } from '../../data/productEducation';
+import { getNutrientHighlights, NUTRIENT_NOTE } from '../../data/productNutrients';
 import SectionHeading from '../../components/common/SectionHeading';
 import { EmptyState, ErrorState } from '../../components/common/States';
 import { TextSkeleton } from '../../components/common/Skeletons';
 import AwarenessPurchasePanel from '../../components/product/AwarenessPurchasePanel';
+import Reveal from '../../components/common/Reveal';
 
 export default function ProductDetails() {
   const { id } = useParams();
   const { data: product, loading, error, reload } = useAsync(() => getProduct(id), [id]);
   const { addViewed } = useRecentlyViewed();
 
-  usePageMeta(product ? `${product.name} (${product.hindiName})` : loading ? 'Loading…' : 'Product not found', product?.shortDescription);
+  usePageMeta(product ? product.name : loading ? 'Loading…' : 'Product not found', product?.shortDescription);
 
   useEffect(() => {
     if (product) addViewed(product.id);
@@ -53,12 +55,12 @@ export default function ProductDetails() {
 
   const category = categories.find((c) => c.id === product.category);
   const range = harvestRange(product.growingPeriod);
+  const nutrients = getNutrientHighlights(product);
   const MEAL = { breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner', snack: 'Snacks', garnish: 'Garnish', smoothie: 'Smoothies' };
 
   // Spec list modelled on a seed-catalogue variety sheet.
   const specs = [
     { label: 'Common name', value: product.name },
-    { label: 'Hindi name', value: <span className="hindi" lang="hi">{product.hindiName}</span> },
     product.botanicalName && { label: 'Botanical name', value: <i>{product.botanicalName}</i> },
     product.ingredients && { label: "What's inside", value: product.ingredients.join(', ') },
     { label: 'Category', value: <Link to={`/shop?category=${category.id}`} className="text-brand-700 hover:underline">{category.name}</Link> },
@@ -67,10 +69,10 @@ export default function ProductDetails() {
     { label: 'Grow time', value: range ? `${range[0]}–${range[1]} days from sowing` : product.growingPeriod },
     { label: 'Best for', value: product.uses.join(', ') },
     product.mealTypes && { label: 'Meals', value: product.mealTypes.map((m) => MEAL[m] || m).join(', ') },
-    product.howToEat && { label: 'How to eat', value: product.howToEat === 'raw' ? 'Best raw, added just before serving' : 'Raw, or added to warm food after cooking' },
+    product.howToEat && { label: 'How to eat', value: product.servingNote || HOW_TO_EAT_LABELS[product.howToEat] },
     { label: 'Shelf life', value: product.shelfLife },
     { label: 'Storage', value: product.storage },
-    { label: 'Nutrition', value: product.nutrition || 'Published once verified by lab testing' },
+    { label: 'Nutrition', value: nutrients.length ? nutrients.join(' · ') : 'Nutrition profile awaiting verification.' },
   ].filter(Boolean);
 
   return (
@@ -80,24 +82,18 @@ export default function ProductDetails() {
           <Breadcrumb
             items={[
               { label: 'Home', to: '/' },
-              { label: site.features.shop ? 'Shop' : 'Our greens', to: '/shop' },
+              { label: site.features.shop ? 'Shop' : 'Our Greens', to: '/shop' },
               { label: category.name, to: `/shop?category=${category.id}` },
               { label: product.name },
             ]}
           />
           <p className="eyebrow mt-8">{category.name}</p>
-          <h1 className="mt-2 text-4xl sm:text-5xl lg:text-6xl">{product.name}</h1>
-          <p className="mt-2 text-lg text-muted">
-            <span className="hindi text-brand-700" lang="hi">
-              {product.hindiName}
-            </span>
-            {product.botanicalName && (
-              <>
-                {' · '}
-                <i>{product.botanicalName}</i>
-              </>
-            )}
-          </p>
+          <h1 className="mt-2 animate-fade-up text-4xl sm:text-5xl lg:text-6xl">{product.name}</h1>
+          {product.botanicalName && (
+            <p className="mt-2 text-lg text-muted">
+              <i>{product.botanicalName}</i>
+            </p>
+          )}
           {site.features.ratings && (
             <a href="#reviews" className="mt-3 inline-flex items-center gap-2 hover:underline">
               <ProductRating rating={product.rating} count={product.reviewCount} />
@@ -120,12 +116,12 @@ export default function ProductDetails() {
       </section>
 
       <div className="container-page mt-10 grid gap-10 lg:mt-14 lg:grid-cols-[1.25fr_1fr] lg:gap-14">
-        <section aria-labelledby="profile-title">
+        <section aria-labelledby="profile-title" className="min-w-0">
           <h2 id="profile-title" className="text-3xl">
             Profile
           </h2>
           <p className="mt-1 font-display text-lg text-brand-700 italic">
-            {product.name.replace(/ Microgreens$/, '')} microgreens
+            {product.name}
           </p>
           <div className="prose-mg mt-5 text-lg">
             <p>{product.description}</p>
@@ -148,19 +144,24 @@ export default function ProductDetails() {
         </section>
 
         <aside aria-labelledby="specs-title" className="lg:sticky lg:top-28 lg:self-start">
-          <div className="card overflow-hidden">
+          <Reveal className="card overflow-hidden">
             <h2 id="specs-title" className="border-b border-line bg-brand-900 px-6 py-4 font-sans text-sm font-semibold tracking-wider text-white uppercase">
               Variety details
             </h2>
             <dl className="divide-y divide-line">
               {specs.map((row) => (
-                <div key={row.label} className="grid grid-cols-[8.5rem_1fr] gap-4 px-6 py-3.5 text-sm">
+                <div key={row.label} className="grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-3 px-4 py-3.5 text-sm sm:grid-cols-[8.5rem_minmax(0,1fr)] sm:gap-4 sm:px-6">
                   <dt className="font-medium text-muted">{row.label}</dt>
-                  <dd className="text-brand-950">{row.value}</dd>
+                  <dd className="min-w-0 break-words text-brand-950">{row.value}</dd>
                 </div>
               ))}
             </dl>
-          </div>
+            {nutrients.length > 0 && (
+              <p className="border-t border-line px-6 py-4 text-xs leading-relaxed text-muted">
+                {NUTRIENT_NOTE}
+              </p>
+            )}
+          </Reveal>
         </aside>
       </div>
 
@@ -183,6 +184,9 @@ export default function ProductDetails() {
 function BestWaysToUse({ product }) {
   if (!product.bestWays) return null;
   const raw = product.howToEat === 'raw';
+  const juiced = product.howToEat === 'juice-or-blend';
+  const ServingIcon = juiced ? GlassWater : raw ? Leaf : Flame;
+  const StorageIcon = product.id === 'wheatgrass-live-tray' ? Sprout : Refrigerator;
   return (
     <section id="best-ways" className="mt-16 scroll-mt-28 rounded-[2rem] bg-cream-100 p-6 sm:p-10" aria-labelledby="best-ways-title">
       <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:gap-12">
@@ -192,13 +196,13 @@ function BestWaysToUse({ product }) {
             Best ways to use {product.name.replace(/ Microgreens$/, '').toLowerCase()}
           </h2>
           <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-            {product.bestWays.map((w) => (
-              <li key={w} className="flex items-start gap-3 rounded-2xl bg-white p-4 text-sm font-medium text-brand-950 shadow-sm">
+            {product.bestWays.map((w, i) => (
+              <Reveal as="li" key={w} delay={i * 60} className="flex items-start gap-3 rounded-2xl bg-white p-4 text-sm font-medium text-brand-950 shadow-sm">
                 <span className="grid size-6 shrink-0 place-items-center rounded-full bg-brand-600 text-white">
                   <Check className="size-3.5" aria-hidden />
                 </span>
                 {w}
-              </li>
+              </Reveal>
             ))}
           </ul>
         </div>
@@ -214,17 +218,17 @@ function BestWaysToUse({ product }) {
             </ul>
           </div>
           <div className={`flex gap-3 rounded-2xl p-4 ${raw ? 'bg-brand-50' : 'bg-turmeric-100'}`}>
-            {raw ? <Leaf className="mt-0.5 size-5 shrink-0 text-brand-700" aria-hidden /> : <Flame className="mt-0.5 size-5 shrink-0 text-turmeric-700" aria-hidden />}
+            <ServingIcon className="mt-0.5 size-5 shrink-0 text-brand-700" aria-hidden />
             <div>
-              <h3 className="font-sans text-sm font-semibold tracking-normal text-brand-950">Raw or cooked?</h3>
-              <p className="mt-1 text-sm text-muted">{HOW_TO_EAT_LABELS[product.howToEat]}</p>
+              <h3 className="font-sans text-sm font-semibold tracking-normal text-brand-950">{juiced ? 'Juice or blend' : 'Raw or cooked?'}</h3>
+              <p className="mt-1 text-sm text-muted">{product.servingNote || HOW_TO_EAT_LABELS[product.howToEat]}</p>
             </div>
           </div>
           <div className="flex gap-3 rounded-2xl bg-white p-4 shadow-sm">
-            <Refrigerator className="mt-0.5 size-5 shrink-0 text-brand-600" aria-hidden />
+            <StorageIcon className="mt-0.5 size-5 shrink-0 text-brand-600" aria-hidden />
             <div>
               <h3 className="font-sans text-sm font-semibold tracking-normal text-brand-950">Handling</h3>
-              <p className="mt-1 text-sm text-muted">Keep refrigerated. Rinse gently just before eating, then pat dry.</p>
+              <p className="mt-1 text-sm text-muted">{product.storage}</p>
             </div>
           </div>
           <Link to="/how-to-eat" className="inline-block text-sm font-semibold text-brand-700 hover:underline">

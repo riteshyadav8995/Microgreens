@@ -5,6 +5,7 @@ import { growingSteps, PROCESS_PHASES } from '../../data/content';
 import Modal from '../common/Modal';
 import ProcessStep from './ProcessStep';
 import ProcessStepDetail from './ProcessStepDetail';
+import { useInView } from '../../hooks/useInView';
 
 const AUTO_MS = 2600;
 
@@ -37,12 +38,27 @@ export default function ProcessTimeline({ showFullLink = true }) {
   const [highlight, setHighlight] = useState(0);
   const [openIndex, setOpenIndex] = useState(null);
   const [playing, setPlaying] = useState(() => !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+  const [ref, inView] = useInView({ once: false, rootMargin: '0px', threshold: 0.1 });
+  const [focused, setFocused] = useState(false);
+  const [hidden, setHidden] = useState(() => document.hidden);
 
   useEffect(() => {
-    if (!playing || openIndex !== null) return undefined;
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const onMotion = () => { if (media.matches) setPlaying(false); };
+    const onVisibility = () => setHidden(document.hidden);
+    media.addEventListener('change', onMotion);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      media.removeEventListener('change', onMotion);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!playing || !inView || focused || hidden || openIndex !== null) return undefined;
     const t = setTimeout(() => setHighlight((i) => (i + 1) % count), AUTO_MS);
     return () => clearTimeout(t);
-  }, [highlight, playing, openIndex, count]);
+  }, [highlight, playing, inView, focused, hidden, openIndex, count]);
 
   const open = (i) => {
     setOpenIndex(i);
@@ -52,12 +68,12 @@ export default function ProcessTimeline({ showFullLink = true }) {
   const step = openIndex !== null ? growingSteps[openIndex] : null;
 
   return (
-    <div>
+    <div ref={ref} onFocus={(event) => setFocused(!event.target.closest('[data-animation-control]'))} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}>
       <div className="mb-8 flex flex-col gap-4 rounded-3xl bg-white p-5 shadow-card sm:flex-row sm:items-center sm:gap-8">
         <div className="flex-1">
           <PhaseProgress phase={growingSteps[highlight].phase} />
         </div>
-        <button type="button" onClick={() => setPlaying((p) => !p)} className="btn-ghost btn-sm self-start sm:self-center" aria-label={playing ? 'Pause growth animation' : 'Play growth animation'}>
+        <button type="button" data-animation-control onClick={() => setPlaying((p) => !p)} className="btn-ghost btn-sm self-start sm:self-center" aria-label={playing ? 'Pause growth animation' : 'Play growth animation'}>
           {playing ? <Pause className="size-4" aria-hidden /> : <Play className="size-4" aria-hidden />}
           {playing ? 'Pause' : 'Play'}
         </button>

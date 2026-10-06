@@ -144,7 +144,7 @@ export default function SearchBar({ autoFocus = false, onNavigate, onSearch, ini
           aria-activedescendant={active >= 0 && options[active] ? `${listId}-${active}` : undefined}
           autoFocus={autoFocus}
           autoComplete="off"
-          placeholder="Search broccoli, methi, मूली…"
+          placeholder="Search broccoli, methi, radish…"
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -213,9 +213,6 @@ export default function SearchBar({ autoFocus = false, onNavigate, onSearch, ini
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate font-medium text-brand-950">{opt.product.name}</span>
-                        <span className="hindi block text-xs text-muted" lang="hi">
-                          {opt.product.hindiName}
-                        </span>
                       </span>
                       {site.features.shop && <span className="text-xs font-semibold text-brand-800">from {formatPrice(getFromPrice(opt.product))}</span>}
                     </>

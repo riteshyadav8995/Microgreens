@@ -12,16 +12,27 @@ export default function ShopDropdown() {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef(null);
   const closeTimer = useRef();
-  // Set when the pointer opened the menu, so the following click doesn't immediately close it.
-  const hoverOpened = useRef(false);
+  // A clicked menu stays open while the pointer moves to its links.
+  const pinned = useRef(false);
   const { pathname, search } = useLocation();
 
-  useEffect(() => setOpen(false), [pathname, search]);
+  const closeMenu = () => {
+    clearTimeout(closeTimer.current);
+    pinned.current = false;
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    clearTimeout(closeTimer.current);
+    pinned.current = false;
+    setOpen(false);
+  }, [pathname, search]);
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
 
   useEffect(() => {
     if (!open) return undefined;
-    const onKey = (e) => e.key === 'Escape' && setOpen(false);
-    const onClick = (e) => !wrapRef.current?.contains(e.target) && setOpen(false);
+    const onKey = (e) => e.key === 'Escape' && closeMenu();
+    const onClick = (e) => !wrapRef.current?.contains(e.target) && closeMenu();
     document.addEventListener('keydown', onKey);
     document.addEventListener('mousedown', onClick);
     return () => {
@@ -32,20 +43,20 @@ export default function ShopDropdown() {
 
   const enter = () => {
     clearTimeout(closeTimer.current);
-    if (!open) hoverOpened.current = true;
     setOpen(true);
   };
   const leave = () => {
     closeTimer.current = setTimeout(() => {
-      hoverOpened.current = false;
-      setOpen(false);
+      if (!pinned.current) setOpen(false);
     }, 150);
   };
   const onToggle = () => {
-    if (hoverOpened.current) {
-      hoverOpened.current = false;
+    if (pinned.current) closeMenu();
+    else {
+      clearTimeout(closeTimer.current);
+      pinned.current = true;
       setOpen(true);
-    } else setOpen((o) => !o);
+    }
   };
 
   return (
@@ -53,6 +64,7 @@ export default function ShopDropdown() {
       <div className="flex items-center">
         <NavLink
           to="/shop"
+          onClick={closeMenu}
           className={({ isActive }) => `rounded-full py-2 pr-1 pl-4 text-sm font-medium transition hover:text-brand-700 ${isActive ? 'text-brand-700' : 'text-ink'}`}
         >
           {LABEL}
@@ -75,21 +87,18 @@ export default function ShopDropdown() {
             <ul className="grid grid-cols-2 gap-2">
               {categories.map((c) => (
                 <li key={c.id}>
-                  <Link to={`/shop?category=${c.id}`} className="group flex items-center gap-3 rounded-2xl p-2.5 transition hover:bg-cream-100">
+                  <Link to={`/shop?category=${c.id}`} onClick={closeMenu} className="group flex items-center gap-3 rounded-2xl p-2.5 transition hover:bg-cream-100">
                     <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-brand-100 text-brand-700 transition group-hover:bg-brand-700 group-hover:text-white">
                       <Icon name={c.icon} className="size-5" />
                     </span>
                     <span>
                       <span className="block text-sm font-semibold text-brand-950 group-hover:text-brand-700">{c.name}</span>
-                      <span className="hindi block text-xs text-muted" lang="hi">
-                        {c.hindiName}
-                      </span>
                     </span>
                   </Link>
                 </li>
               ))}
             </ul>
-            <Link to="/shop?category=combos" className="group relative flex flex-col justify-end overflow-hidden rounded-2xl bg-brand-900 p-4 text-white transition hover:bg-brand-800">
+            <Link to="/shop?category=combos" onClick={closeMenu} className="group relative flex flex-col justify-end overflow-hidden rounded-2xl bg-brand-900 p-4 text-white transition hover:bg-brand-800">
               <Icon name="LayoutGrid" className="mb-auto size-7 text-brand-300" />
               <span className="text-xs font-semibold tracking-wider text-turmeric-400 uppercase">New here?</span>
               <span className="font-display text-lg leading-snug">{site.features.shop ? 'Try the Starter Mix' : 'Explore our combos'}</span>
