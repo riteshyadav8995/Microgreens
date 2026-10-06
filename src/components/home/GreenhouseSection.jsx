@@ -30,7 +30,7 @@ export default function GreenhouseSection() {
                 <Link to="/our-farm" className="btn-accent group">
                   Visit our farm <ArrowRight className="size-4 transition group-hover:translate-x-1" aria-hidden />
                 </Link>
-                <Link to="/why-us" className="btn-light">
+                <Link to="/why-microgreens" className="btn-light">
                   Why microgreens?
                 </Link>
               </div>

@@ -14,7 +14,7 @@ const Cart = lazy(() => import('./pages/Cart/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout/Checkout'));
 const OrderSuccess = lazy(() => import('./pages/Checkout/OrderSuccess'));
 const OurFarm = lazy(() => import('./pages/OurFarm/OurFarm'));
-const WhyUs = lazy(() => import('./pages/WhyUs/WhyUs'));
+const WhyMicrogreens = lazy(() => import('./pages/Learn/WhyMicrogreens'));
 const Recipes = lazy(() => import('./pages/Recipes/Recipes'));
 const RecipeDetails = lazy(() => import('./pages/Recipes/RecipeDetails'));
 const About = lazy(() => import('./pages/About/About'));
@@ -36,6 +36,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="what-are-microgreens" element={<WhatAreMicrogreens />} />
+        <Route path="why-microgreens" element={<WhyMicrogreens />} />
         <Route path="how-we-grow" element={<HowWeGrow />} />
         <Route path="how-to-eat" element={<HowToEat />} />
         <Route path="find-my-microgreen" element={<FindMyMicrogreen />} />
@@ -46,7 +47,7 @@ export default function App() {
         <Route path="checkout" element={SHOP ? <Checkout /> : toHome} />
         <Route path="checkout/success/:orderId" element={SHOP ? <OrderSuccess /> : toHome} />
         <Route path="our-farm" element={<OurFarm />} />
-        <Route path="why-us" element={<WhyUs />} />
+        <Route path="why-us" element={<Navigate to="/why-microgreens" replace />} />
         {/* Recipes (site.features.recipes) */}
         <Route path="recipes" element={RECIPES ? <Recipes /> : toHome} />
         <Route path="recipes/:id" element={RECIPES ? <RecipeDetails /> : toHome} />

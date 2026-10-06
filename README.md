@@ -22,9 +22,9 @@ The Contact page and footer newsletter form send requests to [Formspree](https:/
 
 ## Routes
 
-Learn: `/what-are-microgreens` · `/how-we-grow` · `/why-us` · `/how-to-eat` · `/find-my-microgreen`. Navigation, footer and next-step links share this sequence.
+Learn: `/what-are-microgreens` · `/why-microgreens` · `/how-we-grow` · `/how-to-eat` · `/find-my-microgreen`. Navigation, footer and next-step links share this sequence. The former `/why-us` URL redirects to `/why-microgreens`.
 
-Shop & more: `/` · `/shop` · `/product/:id` · `/cart` · `/checkout` · `/checkout/success/:orderId` · `/our-farm` · `/why-us` · `/recipes` · `/recipes/:id` · `/about` · `/contact` · `/faq` · `/wishlist` · `/login` · `/register` · `/account` · 404
+Shop & more: `/` · `/shop` · `/product/:id` · `/cart` · `/checkout` · `/checkout/success/:orderId` · `/our-farm` · `/recipes` · `/recipes/:id` · `/about` · `/contact` · `/faq` · `/wishlist` · `/login` · `/register` · `/account` · 404
 
 ## Shop and login are switched off (for now)
 
@@ -50,6 +50,7 @@ features: {
 - **Logo**: a stacked Mini's Greens wordmark with a leaf, shared by the header and footer.
 - **Home**: three complete hero slides advance every two seconds, with a 1.5-second content reveal, microgreens photography and pause/play controls. Brief growing and eating sections link to the full guides. SVG growing illustrations replay on re-entry into view.
 - **What are microgreens?**: a Seed → Sprout → Microgreen → Mature plant visual, a comparison with sprouts and mature plants, general value with no medical claims, and FAQs.
+- **Why Microgreens?**: flavour, colour, texture, everyday meal ideas and research-based nutrition context. Nutrient examples share the catalogue data; USDA source links distinguish general research from product-specific lab results. Brand purpose and values live on About.
 - **How we grow**: a 9-step interactive timeline. It runs horizontally on desktop and vertically on mobile, every step opens a detail modal, and a Seed → Germination → Growth → Harvest progress bar animates.
   - Each step has its own detailed section, and Daily Monitoring includes a checklist.
   - A table shows the typical harvest time for each variety.

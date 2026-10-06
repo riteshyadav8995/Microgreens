@@ -116,8 +116,8 @@ export default function OurFarm() {
               <Link to="/contact" className="btn-accent">
                 Ask about a visit
               </Link>
-              <Link to="/why-us" className="btn-light">
-                Why {site.name}
+              <Link to="/why-microgreens" className="btn-light">
+                Why Microgreens?
               </Link>
             </div>
           </div>

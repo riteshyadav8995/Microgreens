@@ -3,9 +3,9 @@ import Icon from '../common/Icon';
 import Reveal from '../common/Reveal';
 
 /** General value of microgreens as food — no medical claims (Awareness BRD §4, §20). */
-export default function WhyMicrogreensGrid({ dark = false }) {
+export default function WhyMicrogreensGrid({ dark = false, columns = 'lg:grid-cols-4' }) {
   return (
-    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <ul className={`grid gap-4 sm:grid-cols-2 ${columns}`}>
       {whyMicrogreens.map((w, i) => (
         <Reveal
           as="li"

@@ -76,6 +76,7 @@ export function WhySection() {
           align="center"
         />
         <WhyMicrogreensGrid dark />
+        <MoreLink to="/why-microgreens">Explore why microgreens</MoreLink>
       </div>
     </section>
   );

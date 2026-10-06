@@ -257,39 +257,6 @@ export const MEAL_TYPES = {
   smoothie: 'Smoothie',
 };
 
-export const whyPillars = [
-  {
-    icon: 'Sparkles',
-    title: 'Choose by flavour',
-    body: 'Explore mild broccoli, peppery radish, nutty sunflower and more, with taste notes for each variety.',
-  },
-  {
-    icon: 'Sprout',
-    title: 'Understand the growing journey',
-    body: 'Our growing guide explains each stage, from choosing seeds to harvesting the young leaves.',
-  },
-  {
-    icon: 'Leaf',
-    title: 'Familiar greens, new possibilities',
-    body: 'Discover methi, dhania, sarson and chaulai alongside broccoli, kale and sunflower.',
-  },
-  {
-    icon: 'Sparkles',
-    title: 'Help finding your first variety',
-    body: 'Our three-question guide suggests microgreens based on your taste, meals and experience.',
-  },
-  {
-    icon: 'ChefHat',
-    title: 'Made for Indian meals',
-    body: 'Methi, dhania, sarson and chaulai sit alongside global favourites, with simple ideas for dal, chaat and more.',
-  },
-  {
-    icon: 'BadgeCheck',
-    title: 'Honest information',
-    body: 'Read variety-specific taste, growing-time and storage guidance, with research-based nutrient highlights and clear notes on verification.',
-  },
-];
-
 export const comparison = {
   columns: ['Sprouts', 'Microgreens', 'Mature plants'],
   rows: [
